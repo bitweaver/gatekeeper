@@ -1,6 +1,6 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1 2005/06/19 04:48:53 bitweaver Exp $
+* $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.1 2005/06/25 21:36:57 spiderr Exp $
 *
 * Copyright (c) 2004 bitweaver.org
 * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
 * All Rights Reserved. See copyright.txt for details and a complete list of authors.
 * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
 *
-* $Id: LibertyGatekeeper.php,v 1.1 2005/06/19 04:48:53 bitweaver Exp $
+* $Id: LibertyGatekeeper.php,v 1.1.1.1.2.1 2005/06/25 21:36:57 spiderr Exp $
 */
 /**
 * Gatekeeper class to illustrate best practices when creating a new bitweaver package that
@@ -18,7 +18,7 @@
 *
 * @author spider <spider@steelsun.com>
 *
-* @version $Revision: 1.1 $ $Date: 2005/06/19 04:48:53 $ $Author: bitweaver $
+* @version $Revision: 1.1.1.1.2.1 $ $Date: 2005/06/25 21:36:57 $ $Author: spiderr $
 *
 * @class LibertyGatekeeper
 */
@@ -43,7 +43,7 @@ class LibertyGatekeeper extends LibertyBase {
 		if( ($pParamHash['security_id'] != 'public') && !empty( $pParamHash['access_level'] ) ) {
 			// if we have an access level, we know we are trying to save/update,
 			// else perhaps we are just assigning security_id to content_id
-			if( empty( $pParamHash['security_description'] ) && empty( $pParamHash['security_id'] ) ) {
+			if( empty( $pParamHash['security_description'] ) && (empty( $pParamHash['security_id'] ) || $pParamHash['security_id'] == 'new' ) ) {
 				$this->mErrors['security'] = tra( "You must enter a security description." );
 			} elseif( !empty( $pParamHash['security_description'] ) ) {
 				// we need to load the existing security_id to verify we user owns the security_id & if anything has changed
