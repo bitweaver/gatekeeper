@@ -1,10 +1,12 @@
 {literal}
-<script type="text/javascript"><!--
+<script type="text/javascript">
+//<![CDATA[
 function toggleSecuirtyEdit(form) {
 	ele = document.getElementById("securityselect");
 	setBlockDisplay( "securityedit", ele.value=="new" );
 }
---></script> 
+//]]>
+</script> 
 {/literal}
 
 {strip}
@@ -31,7 +33,9 @@ function toggleSecuirtyEdit(form) {
 {/strip}
 
 {literal}
-<script type="text/javascript"><!--
-toggleBlockDisplay('securityedit');
---></script>
+<script type="text/javascript">
+	//<![CDATA[
+	toggleBlockDisplay('securityedit');
+	//]]>
+</script>
 {/literal}
