@@ -1,31 +1,34 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.2 2005/06/27 00:39:26 lsces Exp $
-*
-* Copyright (c) 2004 bitweaver.org
-* Copyright (c) 2003 tikwiki.org
-* Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
-* All Rights Reserved. See copyright.txt for details and a complete list of authors.
-* Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
-*
-* $Id: LibertyGatekeeper.php,v 1.1.1.1.2.2 2005/06/27 00:39:26 lsces Exp $
-*/
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.3 2005/06/27 10:55:46 lsces Exp $
+ *
+ * Copyright (c) 2004 bitweaver.org
+ * Copyright (c) 2003 tikwiki.org
+ * Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
+ * All Rights Reserved. See copyright.txt for details and a complete list of authors.
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
+ *
+ * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.3 2005/06/27 10:55:46 lsces Exp $
+ * @package gatekeeper
+ */
+
 /**
-* Gatekeeper class to illustrate best practices when creating a new bitweaver package that
-* builds on core bitweaver functionality, such as the Liberty CMS engine
-*
-* @package LibertyGatekeeper
-*
-* created 2004/8/15
-*
-* @author spider <spider@steelsun.com>
-*
-* @version $Revision: 1.1.1.1.2.2 $ $Date: 2005/06/27 00:39:26 $ $Author: lsces $
-*/
-
-
+ * required setup
+ */
 require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
 
+/**
+ * Gatekeeper class to illustrate best practices when creating a new bitweaver package that
+ * builds on core bitweaver functionality, such as the Liberty CMS engine
+ *
+ * @package LibertyGatekeeper
+ *
+ * created 2004/8/15
+ *
+ * @author spider <spider@steelsun.com>
+ *
+ * @version $Revision: 1.1.1.1.2.3 $ $Date: 2005/06/27 10:55:46 $ $Author: lsces $
+ */
 class LibertyGatekeeper extends LibertyBase {
     /**
     * During initialisation, be sure to call our base constructors
