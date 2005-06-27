@@ -1,6 +1,6 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.1 2005/06/25 21:36:57 spiderr Exp $
+* $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.2 2005/06/27 00:39:26 lsces Exp $
 *
 * Copyright (c) 2004 bitweaver.org
 * Copyright (c) 2003 tikwiki.org
@@ -8,19 +8,19 @@
 * All Rights Reserved. See copyright.txt for details and a complete list of authors.
 * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
 *
-* $Id: LibertyGatekeeper.php,v 1.1.1.1.2.1 2005/06/25 21:36:57 spiderr Exp $
+* $Id: LibertyGatekeeper.php,v 1.1.1.1.2.2 2005/06/27 00:39:26 lsces Exp $
 */
 /**
 * Gatekeeper class to illustrate best practices when creating a new bitweaver package that
 * builds on core bitweaver functionality, such as the Liberty CMS engine
 *
-* @date created 2004/8/15
+* @package LibertyGatekeeper
+*
+* created 2004/8/15
 *
 * @author spider <spider@steelsun.com>
 *
-* @version $Revision: 1.1.1.1.2.1 $ $Date: 2005/06/25 21:36:57 $ $Author: spiderr $
-*
-* @class LibertyGatekeeper
+* @version $Revision: 1.1.1.1.2.2 $ $Date: 2005/06/27 00:39:26 $ $Author: lsces $
 */
 
 
