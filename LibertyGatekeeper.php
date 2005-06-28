@@ -1,31 +1,35 @@
 <?php
 /**
-* $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1 2005/06/19 04:48:53 bitweaver Exp $
-*
-* Copyright (c) 2004 bitweaver.org
-* Copyright (c) 2003 tikwiki.org
-* Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
-* All Rights Reserved. See copyright.txt for details and a complete list of authors.
-* Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
-*
-* $Id: LibertyGatekeeper.php,v 1.1 2005/06/19 04:48:53 bitweaver Exp $
-*/
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.2 2005/06/28 07:45:44 spiderr Exp $
+ *
+ * Copyright (c) 2004 bitweaver.org
+ * Copyright (c) 2003 tikwiki.org
+ * Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
+ * All Rights Reserved. See copyright.txt for details and a complete list of authors.
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
+ *
+ * $Id: LibertyGatekeeper.php,v 1.2 2005/06/28 07:45:44 spiderr Exp $
+ * @package gatekeeper
+ */
+
 /**
-* Gatekeeper class to illustrate best practices when creating a new bitweaver package that
-* builds on core bitweaver functionality, such as the Liberty CMS engine
-*
-* @date created 2004/8/15
-*
-* @author spider <spider@steelsun.com>
-*
-* @version $Revision: 1.1 $ $Date: 2005/06/19 04:48:53 $ $Author: bitweaver $
-*
-* @class LibertyGatekeeper
-*/
-
-
+ * required setup
+ */
 require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
 
+/**
+ * Gatekeeper class to illustrate best practices when creating a new bitweaver package that
+ * builds on core bitweaver functionality, such as the Liberty CMS engine
+ *
+ * @package gatekeeper
+ * @subpackage LibertyGatekeeper
+ *
+ * created 2004/8/15
+ *
+ * @author spider <spider@steelsun.com>
+ *
+ * @version $Revision: 1.2 $ $Date: 2005/06/28 07:45:44 $ $Author: spiderr $
+ */
 class LibertyGatekeeper extends LibertyBase {
     /**
     * During initialisation, be sure to call our base constructors
@@ -43,7 +47,7 @@ class LibertyGatekeeper extends LibertyBase {
 		if( ($pParamHash['security_id'] != 'public') && !empty( $pParamHash['access_level'] ) ) {
 			// if we have an access level, we know we are trying to save/update,
 			// else perhaps we are just assigning security_id to content_id
-			if( empty( $pParamHash['security_description'] ) && empty( $pParamHash['security_id'] ) ) {
+			if( empty( $pParamHash['security_description'] ) && (empty( $pParamHash['security_id'] ) || $pParamHash['security_id'] == 'new' ) ) {
 				$this->mErrors['security'] = tra( "You must enter a security description." );
 			} elseif( !empty( $pParamHash['security_description'] ) ) {
 				// we need to load the existing security_id to verify we user owns the security_id & if anything has changed

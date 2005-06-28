@@ -13,7 +13,7 @@ function updateControls(form) {
 }
 --></script>
 {/literal}
-{formfeedback error=$gatekeeperErrors warning=$errors.security}
+{formfeedback error=$errors.security}
 
 <div class="row">
 	{formlabel label="Security Level Description" for="security-description"}

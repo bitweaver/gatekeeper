@@ -1,4 +1,11 @@
 <?php
+/**
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.2 2005/06/28 07:45:44 spiderr Exp $
+ * @package gatekeeper
+ * @subpackage functions
+ * @author spider <spider@steelsun.com>
+ */
+
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2004, bitweaver.org
 // +----------------------------------------------------------------------+
@@ -11,8 +18,11 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: edit.php,v 1.1 2005/06/19 04:48:53 bitweaver Exp $
+// $Id: edit.php,v 1.2 2005/06/28 07:45:44 spiderr Exp $
 
+/**
+ * required setup
+ */
 require_once( '../bit_setup_inc.php' );
 
 $gBitSystem->verifyPackage( 'gatekeeper' );
