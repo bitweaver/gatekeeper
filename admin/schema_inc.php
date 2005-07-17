@@ -25,10 +25,10 @@ $tables = array(
 global $gBitInstaller;
 
 foreach( array_keys( $tables ) AS $tableName ) {
-	$gBitInstaller->registerSchemaTable( GATEKEEPER_PKG_DIR, $tableName, $tables[$tableName] );
+	$gBitInstaller->registerSchemaTable( GATEKEEPER_PKG_NAME, $tableName, $tables[$tableName] );
 }
 
-$gBitInstaller->registerPackageInfo( GATEKEEPER_PKG_DIR, array(
+$gBitInstaller->registerPackageInfo( GATEKEEPER_PKG_NAME, array(
 	'description' => "Gatekeeper system allows the creation of protected content. This content can then only be accessed by using a specified url, password or only the creator.",
 	'license' => '<a href="http://www.gnu.org/licenses/licenses.html#LGPL">LGPL</a>',
 	'version' => '0.1',
@@ -42,15 +42,15 @@ $indices = array (
 	'tiki_consec_security_idx' => array( 'table' => 'tiki_content_security_map', 'cols' => 'security_id', 'opts' => NULL ),
 	'tiki_consec_content_idx' => array( 'table' => 'tiki_content_security_map', 'cols' => 'content_id', 'opts' => array( 'UNIQUE' ) ),
 );
-$gBitInstaller->registerSchemaIndexes( GATEKEEPER_PKG_DIR, $indices );
+$gBitInstaller->registerSchemaIndexes( GATEKEEPER_PKG_NAME, $indices );
 
 // ### Sequences
 $sequences = array (
 	'tiki_security_id_seq' => array( 'start' => 1 ) 
 );
-$gBitInstaller->registerSchemaSequences( GATEKEEPER_PKG_DIR, $sequences );
+$gBitInstaller->registerSchemaSequences( GATEKEEPER_PKG_NAME, $sequences );
 
-$gBitInstaller->registerSchemaDefault( GATEKEEPER_PKG_DIR, array(
+$gBitInstaller->registerSchemaDefault( GATEKEEPER_PKG_NAME, array(
 
 	"INSERT INTO `".BIT_DB_PREFIX."users_permissions` (`perm_name`, `perm_desc`, `level`, `package`) VALUES ('bit_p_create_gatekeeper', 'Can create a gatekeeper', 'registered', 'gatekeeper')",
 	"INSERT INTO `".BIT_DB_PREFIX."users_permissions` (`perm_name`, `perm_desc`, `level`, `package`) VALUES ('bit_p_gatekeeper_edit', 'Can edit any gatekeeper', 'editors', 'gatekeeper')",
