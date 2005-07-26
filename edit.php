@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.1.1.1.2.1 2005/06/27 10:55:46 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.1.1.1.2.2 2005/07/26 15:50:06 drewslater Exp $
  * @package gatekeeper
  * @subpackage functions
  * @author spider <spider@steelsun.com>
@@ -18,7 +18,7 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: edit.php,v 1.1.1.1.2.1 2005/06/27 10:55:46 lsces Exp $
+// $Id: edit.php,v 1.1.1.1.2.2 2005/07/26 15:50:06 drewslater Exp $
 
 /**
  * required setup
@@ -47,7 +47,7 @@ elseif( !empty( $sec ) ||
 		if( $gGatekeeper->storeSecurity( $_REQUEST ) ) {
 			header( 'Location: '.GATEKEEPER_PKG_URL );
 		} else {
-			$smarty->assign_by_ref( 'gatekeeperErrors', $gGatekeeper->mErrors );
+			$gBitSmarty->assign_by_ref( 'gatekeeperErrors', $gGatekeeper->mErrors );
 		}
 	} elseif( !empty( $_REQUEST['deletesecurity'] ) ) {
 
@@ -70,7 +70,7 @@ vd( $gGatekeeper );
 		} elseif( $sec['is_hidden'] == 'y' ) {
 			$sec['selected'] = 'hidden';
 		}
-		$smarty->assign_by_ref( 'security', $sec );
+		$gBitSmarty->assign_by_ref( 'security', $sec );
 	}
 
 	$gBitSystem->display( 'bitpackage:gatekeeper/edit_security.tpl', 'Edit Security' );

@@ -11,7 +11,7 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: index.php,v 1.1 2005/06/19 04:48:53 bitweaver Exp $
+// $Id: index.php,v 1.1.1.1.2.1 2005/07/26 15:50:06 drewslater Exp $
 
 require_once( '../bit_setup_inc.php' );
 
@@ -20,7 +20,7 @@ $gBitSystem->verifyPackage( 'gatekeeper' );
 require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
 
 $lists = $gGatekeeper->getSecurityList();
-$smarty->assign_by_ref( 'securities', $lists );
+$gBitSmarty->assign_by_ref( 'securities', $lists );
 
 $gBitSystem->display( 'bitpackage:gatekeeper/list_security.tpl', 'Upload Images' );
 

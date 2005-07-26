@@ -1,5 +1,5 @@
 <?php
-global $gBitSystem, $smarty;
+global $gBitSystem, $gBitSmarty;
 $gBitSystem->registerPackage( 'gatekeeper', dirname( __FILE__).'/' );
 
 require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
@@ -14,10 +14,10 @@ require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
 	// Completely private gallery. Viewable only by the creator and members of an optional assigned group
 //	define( 'GATEKEEPER_ACCESS_PRIVATE', 500);			
 
-//	$smarty->assign('GATEKEEPER_ACCESS_PUBLIC', GATEKEEPER_ACCESS_PUBLIC);
-//	$smarty->assign('GATEKEEPER_ACCESS_PROTECTED', GATEKEEPER_ACCESS_PROTECTED);
-//	$smarty->assign('GATEKEEPER_ACCESS_PROTECTED_HIDDEN', GATEKEEPER_ACCESS_PROTECTED_HIDDEN);
-//	$smarty->assign('GATEKEEPER_ACCESS_PRIVATE', GATEKEEPER_ACCESS_PRIVATE);
+//	$gBitSmarty->assign('GATEKEEPER_ACCESS_PUBLIC', GATEKEEPER_ACCESS_PUBLIC);
+//	$gBitSmarty->assign('GATEKEEPER_ACCESS_PROTECTED', GATEKEEPER_ACCESS_PROTECTED);
+//	$gBitSmarty->assign('GATEKEEPER_ACCESS_PROTECTED_HIDDEN', GATEKEEPER_ACCESS_PROTECTED_HIDDEN);
+//	$gBitSmarty->assign('GATEKEEPER_ACCESS_PRIVATE', GATEKEEPER_ACCESS_PRIVATE);
 
 //	define ( 'GATEKEEPER_DEFAULT_ACCESS_LEVEL', GATEKEEPER_ACCESS_PUBLIC);
 //	define ( 'GATEKEEPER_DEFAULT_ACCESS_QUESTION', 'Enter the password to view this gallery');
