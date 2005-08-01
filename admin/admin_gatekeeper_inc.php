@@ -1,11 +1,11 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_gatekeeper/admin/admin_gatekeeper_inc.php,v 1.1 2005/06/19 04:48:53 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_gatekeeper/admin/admin_gatekeeper_inc.php,v 1.2 2005/08/01 18:40:29 squareing Exp $
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 if (isset($_REQUEST["gatekeeperset"]) && isset($_REQUEST["homeSample"])) {
 	$gBitSystem->storePreference("home_gatekeeper", $_REQUEST["homeSample"]);
-	$smarty->assign('home_gatekeeper', $_REQUEST["homeSample"]);
+	$gBitSmarty->assign('home_gatekeeper', $_REQUEST["homeSample"]);
 }
 
 require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
@@ -19,7 +19,7 @@ if( !empty( $_REQUEST['savegatekeeper'] ) ) {
 		die;
 	} else {
 		$saveError = TRUE;
-		$smarty->assign_by_ref( 'gatekeeperErrors', $gGatekeeper->mErrors );
+		$gBitSmarty->assign_by_ref( 'gatekeeperErrors', $gGatekeeper->mErrors );
 	}
 } elseif( !empty( $_REQUEST['assigngatekeeper'] ) ) {
 	foreach( array_keys( $_REQUEST ) as $key ) {
@@ -32,16 +32,16 @@ if( !empty( $_REQUEST['savegatekeeper'] ) ) {
 }
 // $gGatekeeper->load();
 if( $gGatekeeper->isValid() || isset( $_REQUEST['newgatekeeper'] ) || !empty( $saveError ) ) {
-	$smarty->assign_by_ref('gGatekeeper', $gGatekeeper);
+	$gBitSmarty->assign_by_ref('gGatekeeper', $gGatekeeper);
 } else {
 	$gatekeepers = $gGatekeeper->getList();
 	$systemGroups = $gGatekeeper->getGatekeeperGroups();
-	$smarty->assign_by_ref('systemGroups', $systemGroups );
+	$gBitSmarty->assign_by_ref('systemGroups', $systemGroups );
 foreach( array_keys( $systemGroups ) as $groupId ) {
 	$groupGatekeeper[$groupId] = $gGatekeeper->getGatekeeperMenu( 'gatekeeper_group_'.$groupId, $systemGroups[$groupId]['gatekeeper_id'] );
 }
-	$smarty->assign_by_ref('groupGatekeeper', $groupGatekeeper );
-	$smarty->assign_by_ref('gatekeeperList', $gatekeepers);
+	$gBitSmarty->assign_by_ref('groupGatekeeper', $groupGatekeeper );
+	$gBitSmarty->assign_by_ref('gatekeeperList', $gatekeepers);
 }
 
 ?>
