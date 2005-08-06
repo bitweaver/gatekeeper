@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.4 2005/06/27 15:10:29 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.5 2005/08/06 18:31:34 lsces Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.4 2005/06/27 15:10:29 lsces Exp $
+ * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.5 2005/08/06 18:31:34 lsces Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.1.1.1.2.4 $ $Date: 2005/06/27 15:10:29 $ $Author: lsces $
+ * @version $Revision: 1.1.1.1.2.5 $ $Date: 2005/08/06 18:31:34 $ $Author: lsces $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -83,12 +83,12 @@ class LibertyGatekeeper extends LibertyBase {
 				$table = BIT_DB_PREFIX."tiki_security";
 				if( empty( $pParamHash['security_id'] ) || !is_numeric( $pParamHash['security_id'] ) ) {
 					$pParamHash['security_store']['user_id'] = $gBitUser->mUserId;
-					$pParamHash['security_id'] = $this->mDb->GenID( 'tiki_security_id_seq' );
+					$pParamHash['security_id'] = $this->GenID( 'tiki_security_id_seq' );
 					$pParamHash['security_store']['security_id'] = $pParamHash['security_id'];
 					$result = $this->associateInsert( $table, $pParamHash['security_store'] );
 				} else {
 					$secId = array ( "name" => "security_id", "value" => $pParamHash['security_id'] );
-					$result = $this->mDb->associateUpdate( $table, $pParamHash['security_store'], $secId );
+					$result = $this->associateUpdate( $table, $pParamHash['security_store'], $secId );
 				}
 			}
 
@@ -120,7 +120,7 @@ class LibertyGatekeeper extends LibertyBase {
 	function expungeSecurity( $pSecurityId ) {
 		$ret = FALSE;
 		if( !empty( $pSecurityId ) && is_numeric( $pSecurityId ) ) {
-			$this->mDb->StartTrans();
+			$this->StartTrans();
 
 			$sql = "DELETE FROM `".BIT_DB_PREFIX."tiki_content_security_map` WHERE security_id=?";
 			$rs = $this->query( $sql, array( $pSecurityId ) );
@@ -128,7 +128,7 @@ class LibertyGatekeeper extends LibertyBase {
 			$sql = "DELETE FROM `".BIT_DB_PREFIX."tiki_security` WHERE security_id=?";
 			$rs = $this->query( $sql, array( $pSecurityId ) );
 
-			$this->mDb->CompleteTrans();
+			$this->CompleteTrans();
 			$ret = TRUE;
 		}
 		return $ret;
