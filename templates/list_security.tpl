@@ -22,13 +22,13 @@
 							{/tr}
 						</td>
 						<td class="actionicon">
-							<a title="{tr}Edit{/tr}" href="{$gBitLoc.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}">{biticon ipackage=liberty iname="config" iexplain="Edit"}</a>
-							<a title="{tr}Delete{/tr}" href="{$gBitLoc.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}&deletesecurity=1">{biticon ipackage=liberty iname="delete" iexplain="Delete Image"}</a>
+							<a title="{tr}Edit{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}">{biticon ipackage=liberty iname="config" iexplain="Edit"}</a>
+							<a title="{tr}Delete{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}&deletesecurity=1">{biticon ipackage=liberty iname="delete" iexplain="Delete Image"}</a>
 						</td>
 					</tr>
 				{/foreach}
 			</table>
-			<a title="{tr}Add Security Level{/tr}" href="{$gBitLoc.GATEKEEPER_PKG_URL}edit.php?newsecurity=1">Add Security Level</a>
+			<a title="{tr}Add Security Level{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?newsecurity=1">Add Security Level</a>
 		</div>	<!-- end .body -->
 	{else}
 		{include file="bitpackage:gatekeeper/edit_security.tpl"}

@@ -21,7 +21,7 @@ function toggleSecuirtyEdit(form) {
 			<option value="new">{tr}Create New Security Level{/tr}...</option>
 		</select>
 		{if $securities}
-			<a href="{$gBitLoc.GATEKEEPER_PKG_URL}">Edit Security Levels</a>
+			<a href="{$smarty.const.GATEKEEPER_PKG_URL}">Edit Security Levels</a>
 		{/if}
 	{/forminput}
 </div>

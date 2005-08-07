@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.2 2005/06/28 07:45:44 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.3 2005/08/07 17:37:31 squareing Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.2 2005/06/28 07:45:44 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.3 2005/08/07 17:37:31 squareing Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.2 $ $Date: 2005/06/28 07:45:44 $ $Author: spiderr $
+ * @version $Revision: 1.3 $ $Date: 2005/08/07 17:37:31 $ $Author: squareing $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -74,7 +74,7 @@ class LibertyGatekeeper extends LibertyBase {
 			// We'll first nuke any security mappings for this content_id
 			$sql = "DELETE FROM `".BIT_DB_PREFIX."tiki_content_security_map`
 					WHERE `content_id` = ?";
-			$rs = $this->query( $sql, array( $pParamHash['content_id'] ) );
+			$rs = $this->mDb->query( $sql, array( $pParamHash['content_id'] ) );
 		}
 		if( !empty( $pParamHash['access_level'] ) || (!empty( $pParamHash['security_id'] ) && $pParamHash['security_id'] != 'public') ) {
 			if( $this->verifySecurity( $pParamHash ) && !empty( $pParamHash['security_store'] ) ) {
@@ -85,7 +85,7 @@ class LibertyGatekeeper extends LibertyBase {
 					$pParamHash['security_store']['user_id'] = $gBitUser->mUserId;
 					$pParamHash['security_id'] = $this->mDb->GenID( 'tiki_security_id_seq' );
 					$pParamHash['security_store']['security_id'] = $pParamHash['security_id'];
-					$result = $this->associateInsert( $table, $pParamHash['security_store'] );
+					$result = $this->mDb->associateInsert( $table, $pParamHash['security_store'] );
 				} else {
 					$secId = array ( "name" => "security_id", "value" => $pParamHash['security_id'] );
 					$result = $this->mDb->associateUpdate( $table, $pParamHash['security_store'], $secId );
@@ -94,7 +94,7 @@ class LibertyGatekeeper extends LibertyBase {
 
 			if( @$this->verifyId( $pParamHash['content_id'] ) && @$this->verifyId( $pParamHash['security_id'] ) ) {
 				$sql = "INSERT INTO `".BIT_DB_PREFIX."tiki_content_security_map` ( `content_id`, `security_id` ) VALUES (?,?)";
-				$rs = $this->query( $sql, array( $pParamHash['content_id'], $pParamHash['security_id'] ) );
+				$rs = $this->mDb->query( $sql, array( $pParamHash['content_id'], $pParamHash['security_id'] ) );
 			}
 		}
 		return( count( $this->mErrors ) == 0 );
@@ -113,7 +113,7 @@ class LibertyGatekeeper extends LibertyBase {
 		}
 
 		$query = "SELECT `security_id` AS `hash_id`, `security_id`, `user_id`, `security_description`, `is_private`, `is_hidden`, `access_question`, `access_answer` FROM `".BIT_DB_PREFIX."tiki_security` WHERE `user_id`=? $whereSql";
-		return $this->GetAssoc( $query, $bindVars );
+		return $this->mDb->getAssoc( $query, $bindVars );
 	}
 
 	// guaranteeing pSecurityId is owned by someone else better happen upstream!
@@ -123,10 +123,10 @@ class LibertyGatekeeper extends LibertyBase {
 			$this->mDb->StartTrans();
 
 			$sql = "DELETE FROM `".BIT_DB_PREFIX."tiki_content_security_map` WHERE security_id=?";
-			$rs = $this->query( $sql, array( $pSecurityId ) );
+			$rs = $this->mDb->query( $sql, array( $pSecurityId ) );
 
 			$sql = "DELETE FROM `".BIT_DB_PREFIX."tiki_security` WHERE security_id=?";
-			$rs = $this->query( $sql, array( $pSecurityId ) );
+			$rs = $this->mDb->query( $sql, array( $pSecurityId ) );
 
 			$this->mDb->CompleteTrans();
 			$ret = TRUE;
