@@ -22,9 +22,7 @@ function updateControls(form) {
 	{formhelp note="Enter a description for the types of people who will be using this secutiry level such as \"Colleagues\" or \"Family\""}
 	{/forminput}
 </div>
-{if !$security.selected}
-{assign var=radioSel value='hidden'}
-{else}
+{if $security.selected}
 {assign var=radioSel value=$security.selected}
 {/if}
 <div class="row">

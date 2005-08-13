@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.7 2005/08/07 16:23:24 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.8 2005/08/13 21:07:38 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.7 2005/08/07 16:23:24 lsces Exp $
+ * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.8 2005/08/13 21:07:38 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.1.1.1.2.7 $ $Date: 2005/08/07 16:23:24 $ $Author: lsces $
+ * @version $Revision: 1.1.1.1.2.8 $ $Date: 2005/08/13 21:07:38 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -79,16 +79,18 @@ class LibertyGatekeeper extends LibertyBase {
 		if( !empty( $pParamHash['access_level'] ) || (!empty( $pParamHash['security_id'] ) && $pParamHash['security_id'] != 'public') ) {
 			if( $this->verifySecurity( $pParamHash ) && !empty( $pParamHash['security_store'] ) ) {
 				trim_array( $pParamHash );
-				global $gBitUser;
-				$table = BIT_DB_PREFIX."tiki_security";
-				if( empty( $pParamHash['security_id'] ) || !is_numeric( $pParamHash['security_id'] ) ) {
-					$pParamHash['security_store']['user_id'] = $gBitUser->mUserId;
-					$pParamHash['security_id'] = $this->mDb->GenID( 'tiki_security_id_seq' );
-					$pParamHash['security_store']['security_id'] = $pParamHash['security_id'];
-					$result = $this->mDb->associateInsert( $table, $pParamHash['security_store'] );
-				} else {
-					$secId = array ( "name" => "security_id", "value" => $pParamHash['security_id'] );
-					$result = $this->mDb->associateUpdate( $table, $pParamHash['security_store'], $secId );
+				if( !empty( $pParamHash['security_store'] ) ) {
+					global $gBitUser;
+					$table = BIT_DB_PREFIX."tiki_security";
+					if( empty( $pParamHash['security_id'] ) || !is_numeric( $pParamHash['security_id'] ) ) {
+						$pParamHash['security_store']['user_id'] = $gBitUser->mUserId;
+						$pParamHash['security_id'] = $this->mDb->GenID( 'tiki_security_id_seq' );
+						$pParamHash['security_store']['security_id'] = $pParamHash['security_id'];
+						$result = $this->mDb->associateInsert( $table, $pParamHash['security_store'] );
+					} else {
+						$secId = array ( "name" => "security_id", "value" => $pParamHash['security_id'] );
+						$result = $this->mDb->associateUpdate( $table, $pParamHash['security_store'], $secId );
+					}
 				}
 			}
 
