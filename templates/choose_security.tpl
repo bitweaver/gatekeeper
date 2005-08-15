@@ -27,9 +27,9 @@ function toggleSecuirtyEdit(form) {
 </div>
 
 {formfeedback error=$gatekeeperErrors warning=$errors.security}
-<span id="securityedit">
+<div id="securityedit">
 	{include file="bitpackage:gatekeeper/edit_security_inc.tpl}
-</span>
+</div>
 {/strip}
 
 {literal}
