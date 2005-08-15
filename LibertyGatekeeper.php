@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.8 2005/08/13 21:07:38 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.9 2005/08/15 07:17:19 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.8 2005/08/13 21:07:38 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.9 2005/08/15 07:17:19 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.1.1.1.2.8 $ $Date: 2005/08/13 21:07:38 $ $Author: spiderr $
+ * @version $Revision: 1.1.1.1.2.9 $ $Date: 2005/08/15 07:17:19 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -135,6 +135,85 @@ class LibertyGatekeeper extends LibertyBase {
 		}
 		return $ret;
 	}
+}
+
+function gatekeeper_content_load() {
+	$ret = array(
+		'select_sql' => ' ,ts.`security_id` AS `has_access_control`, ts.`security_id`, ts.`security_description`, ts.`is_private`, ts.`is_hidden`, ts.`access_question`, ts.`access_answer`  ',
+		'join_sql' => " LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_content_security_map` tcs ON ( tc.`content_id`=tcs.`content_id` )  LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_security` ts ON ( tcs.`security_id`=ts.`security_id` ) ",
+	);
+	return $ret;
+}
+
+function gatekeeper_content_store( &$pObject, &$pParamHash ) {
+	global $gBitSystem, $gGatekeeper;
+	$errors = NULL;
+	// If a content access system is active, let's call it
+	if( $gBitSystem->isPackageActive( 'gatekeeper' ) ) {
+		if( !$gGatekeeper->storeSecurity( $pParamHash ) ) {
+			$errors['security'] = $gGatekeeper->mErrors['security'];
+		}
+	}
+	return( $errors );
+}
+
+function gatekeeper_content_display( &$pContent, &$pParamHash ) {
+	global $gBitSystem, $gBitSmarty;
+	if( !$pContent->hasUserPermission( $pParamHash['perm_name'] ) ) {
+		gatekeeper_content_verify_access(  $pContent );
+	}
+}
+
+function gatekeeper_content_verify_access(  &$pContent ) {
+	global $gBitUser, $gBitSystem;
+	if( !$gBitUser->isRegistered() || !($ret = $pContent->isOwner()) ) {
+		if( !($ret = $gBitUser->isAdmin()) && $pContent->mInfo['security_id'] ) {
+
+			// order matters here!
+			if( $pContent->mInfo['is_hidden'] == 'y' ) {
+				$ret = TRUE;
+			}
+			if( $pContent->mInfo['is_private'] == 'y' ) {
+				$gBitSystem->fatalError( tra( 'You cannot view this' ).' '.$pContent->getContentDescription() );
+			}
+			if( !empty( $pContent->mInfo['access_answer'] ) ) {
+				if ( !empty($_REQUEST['submit_answer'])) {	// User is attempting to authenticate themseleves to view this gallery
+					if( !validateUserAccess( $pContent ) ) {
+						$gBitSmarty->assign("failedLogin", "Incorrect Answer");
+						$gBitSystem->display("bitpackage:gatekeeper/authenticate.tpl", "Password Required to view: ".$pContent->getTitle() );
+						die;
+					}
+				} else {
+					if( !empty( $pContent->mInfo['access_answer'] ) ) {
+						$gBitSystem->display("bitpackage:gatekeeper/authenticate.tpl", "Password Required to view: ".$pContent->getTitle() );
+						die;
+					}
+					$gBitSystem->fatalError( tra( 'You cannot view this' ).' '.$pContent->getContentDescription() );
+				}
+			}
+		}
+	}
+
+}
+
+
+function validateUserAccess( &$pContent ) {
+	$ret = FALSE;
+	if( isset( $_SESSION['gatekeeper_security'][$pContent->mInfo['security_id']] ) && ($_SESSION['gatekeeper_security'][$pContent->mInfo['security_id']] == md5( $pContent->mInfo['access_answer'] )) ) {
+		$ret = TRUE;
+	} elseif( strtoupper( trim( $_REQUEST['try_access_answer'] ) ) == strtoupper( trim($pContent->mInfo['access_answer']) ) ) {
+		$_SESSION['gatekeeper_security'][$pContent->mInfo['security_id']] = md5( $pContent->mInfo['access_answer'] );
+		$ret = TRUE;
+	}
+	return $ret;
+}
+
+
+
+
+function gatekeeper_content_edit( &$pContent ) {
+	global $gGatekeeper, $gBitUser, $gBitSmarty;
+	$gBitSmarty->assign( 'securities', $gGatekeeper->getSecurityList( $gBitUser->mUserId ) );
 }
 
 global $gGatekeeper;

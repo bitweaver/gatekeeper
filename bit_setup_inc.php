@@ -6,8 +6,13 @@ require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
 
 if( $gBitSystem->isPackageActive( 'gatekeeper' ) ) {
 	$gLibertySystem->registerService( LIBERTY_SERVICE_ACCESS_CONTROL, GATEKEEPER_PKG_NAME, array(
-		'edit_tpl' => 'bitpackage:gatekeeper/choose_security.tpl',
-		'edit_php' => GATEKEEPER_PKG_PATH.'edit_choose_inc.php',
+		'content_display_function' => 'gatekeeper_content_display',
+		'content_edit_function' => 'gatekeeper_content_edit',
+		'content_store_function' => 'gatekeeper_content_store',
+		'content_load_function' => 'gatekeeper_content_load',
+		'content_verify_access' => 'gatekeeper_content_verify_access',
+		'content_edit_tpl' => 'bitpackage:gatekeeper/choose_security.tpl',
+		'content_view_tpl' => 'bitpackage:gatekeeper/gatekeeper_content_display.tpl',
 	) );
 }
 
