@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.9 2005/08/15 07:17:19 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.10 2005/08/15 08:52:03 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.9 2005/08/15 07:17:19 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.10 2005/08/15 08:52:03 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.1.1.1.2.9 $ $Date: 2005/08/15 07:17:19 $ $Author: spiderr $
+ * @version $Revision: 1.1.1.1.2.10 $ $Date: 2005/08/15 08:52:03 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -166,44 +166,100 @@ function gatekeeper_content_display( &$pContent, &$pParamHash ) {
 
 function gatekeeper_content_verify_access(  &$pContent ) {
 	global $gBitUser, $gBitSystem;
-	if( !$gBitUser->isRegistered() || !($ret = $pContent->isOwner()) ) {
-		if( !($ret = $gBitUser->isAdmin()) && $pContent->mInfo['security_id'] ) {
 
-			// order matters here!
-			if( $pContent->mInfo['is_hidden'] == 'y' ) {
-				$ret = TRUE;
-			}
-			if( $pContent->mInfo['is_private'] == 'y' ) {
-				$gBitSystem->fatalError( tra( 'You cannot view this' ).' '.$pContent->getContentDescription() );
-			}
-			if( !empty( $pContent->mInfo['access_answer'] ) ) {
-				if ( !empty($_REQUEST['submit_answer'])) {	// User is attempting to authenticate themseleves to view this gallery
-					if( !validateUserAccess( $pContent ) ) {
-						$gBitSmarty->assign("failedLogin", "Incorrect Answer");
-						$gBitSystem->display("bitpackage:gatekeeper/authenticate.tpl", "Password Required to view: ".$pContent->getTitle() );
-						die;
+	if( !$gBitUser->isRegistered() || !($ret = $pContent->isOwner()) ) {
+		if( !($ret = $gBitUser->isAdmin()) ) {
+			if( $pContent->mDb->isAdvancedPostgresEnabled() ) {
+				global $gBitDb, $gBitSmarty;
+				// This code makes use of the badass /usr/share/pgsql/contrib/tablefunc.sql
+				// contribution that you have to install like: psql foo < /usr/share/pgsql/contrib/tablefunc.sql
+				// This code pulls all branches for the current node and determines if there is a path from this content to the root
+				// without hitting a security_id. If there is clear path it returns TRUE. If there is a security_id, then
+				// it determines if the current user has permission
+				$query = "SELECT branch,level,cb_item_content_id,cb_gallery_content_id,ts.*
+						FROM connectby('`".BIT_DB_PREFIX."tiki_fisheye_gallery_image_map`', '`gallery_content_id`', '`item_content_id`', ?, 0, '/') AS t(`cb_gallery_content_id` int,`cb_item_content_id` int, `level` int, `branch` text)
+							LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_content_security_map` tcsm ON (`cb_gallery_content_id`=tcsm.`content_id`)
+							LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_security` ts ON (ts.`security_id`=tcsm.`security_id`)
+						ORDER BY branch
+						";
+		$gBitDb->setFatalActive( FALSE );
+				$tree = $pContent->mDb->getAssoc( $query, array( $pContent->mContentId ) );
+		$gBitDb->setFatalActive( TRUE );
+				if( $tree ) {
+					// we will assume true here since the prevention cases can repeatedly flag FALSE
+					$ret = TRUE;
+					$lastLevel = -1;
+					foreach( $tree AS $branch => $node ) {
+						if( $node['level'] <= $lastLevel ) {
+							// we have moved followed a branch to the end and there is no security!
+							$ret = TRUE;
+							break;
+						}
+						if( $node['security_id'] ) {
+							$ret = FALSE;
+							if( $node['is_hidden'] ) {
+								$ret = TRUE;
+							}
+							if( $node['is_private'] ) {
+								$gBitSystem->fatalError( tra( 'You cannot view this' ).' '.$pContent->getContentDescription() );
+							}
+							if( !empty( $node['access_answer'] ) ) {
+								$pContent->mInfo = array_merge( $pContent->mInfo, $node );
+								if( !($ret = validateUserAccess( $node )) ) {
+								}
+							}
+						}
+						$lastLevel = $node['level'];
 					}
+				} elseif( !empty( $gBitDb->mDb->_errorMsg ) ) {
+					if( $gBitUser->isOwner() ) {
+						$gBitSmarty->assign( 'feedback', array( 'warning' => $gBitDb->mDb->_errorMsg.'<br/>'.tra( 'Please check the galleries to which this '.$pContent->getContentDescription().' belongs' ) ) );
+					}
+					$ret = TRUE;
 				} else {
-					if( !empty( $pContent->mInfo['access_answer'] ) ) {
-						$gBitSystem->display("bitpackage:gatekeeper/authenticate.tpl", "Password Required to view: ".$pContent->getTitle() );
-						die;
-					}
+					$ret = $gBitUser->hasPermission( $pPermName );
+				}
+			} elseif( $pContent->mInfo['security_id'] ) {
+				// order matters here!
+				if( $pContent->mInfo['is_hidden'] == 'y' ) {
+					$ret = TRUE;
+				}
+				if( $pContent->mInfo['is_private'] == 'y' ) {
 					$gBitSystem->fatalError( tra( 'You cannot view this' ).' '.$pContent->getContentDescription() );
+				}
+				if( !empty( $pContent->mInfo['access_answer'] ) ) {
+					$ret = validateUserAccess( $pContent->mInfo );
 				}
 			}
 		}
 	}
-
+	// should always be true
+	return $ret;
 }
 
 
-function validateUserAccess( &$pContent ) {
+function validateUserAccess( $pInfo ) {
+	global $gBitSystem, $gBitSmarty;
 	$ret = FALSE;
-	if( isset( $_SESSION['gatekeeper_security'][$pContent->mInfo['security_id']] ) && ($_SESSION['gatekeeper_security'][$pContent->mInfo['security_id']] == md5( $pContent->mInfo['access_answer'] )) ) {
+
+	if( !empty( $_SESSION['gatekeeper_security'][$pInfo['security_id']] ) && ($_SESSION['gatekeeper_security'][$pInfo['security_id']] == md5( $pInfo['access_answer'] ) ) ) {
 		$ret = TRUE;
-	} elseif( strtoupper( trim( $_REQUEST['try_access_answer'] ) ) == strtoupper( trim($pContent->mInfo['access_answer']) ) ) {
-		$_SESSION['gatekeeper_security'][$pContent->mInfo['security_id']] = md5( $pContent->mInfo['access_answer'] );
-		$ret = TRUE;
+	} else {
+		if ( !empty($_REQUEST['submit_answer']) ) {	// User is attempting to authenticate themseleves to view this gallery
+			if( isset( $_SESSION['gatekeeper_security'][$pInfo['security_id']] ) &&
+			(!empty( $_REQUEST['try_access_answer'] ) && strtoupper( trim( $_REQUEST['try_access_answer'] ) ) != strtoupper( trim($pInfo['access_answer']) )) ) {
+				$_SESSION['gatekeeper_security'][$pInfo['security_id']] = md5( $pInfo['access_answer'] );
+				$gBitSmarty->assign("failedLogin", "Incorrect Answer");
+				$gBitSystem->display("bitpackage:gatekeeper/authenticate.tpl", "Password Required" );
+				die;
+			}
+		} else {
+			if( !empty( $pInfo['access_answer'] ) ) {
+				$gBitSystem->display("bitpackage:gatekeeper/authenticate.tpl", "Password Required" );
+				die;
+			}
+			$gBitSystem->fatalError( tra( 'You cannot view this' ).' '.$pContent->getContentDescription() );
+		}
 	}
 	return $ret;
 }

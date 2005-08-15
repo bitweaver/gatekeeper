@@ -2,12 +2,12 @@
 <div class="body">
 	{formfeedback error=$failedLogin}
 	<h2>{$gContent->mInfo.title}</h2>
-	
-	This gallery has been password protected by the owner.
-	
+
+	{tr}This {$gContent->getContentDescription()|strtolower} has been password protected by the owner.{/tr}
+
 	{form ifile="$PHP_SELF" legend="Authenticate"}
 	<input type="hidden" name="content_id" value="{$gContent->mContentId}" />
-	
+
 	<h3>{$gContent->mInfo.access_question}:</h3>
 	<div class="row">
 		{formlabel label="Answer" for="try-access-answer"}
