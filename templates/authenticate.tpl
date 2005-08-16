@@ -1,7 +1,7 @@
 {strip}
 <div class="body">
 	{formfeedback error=$failedLogin}
-	<h2>{$gContent->mInfo.title}</h2>
+	<h2>{$gContent->getTitle()}</h2>
 
 	{tr}This {$gContent->getContentDescription()|strtolower} has been password protected by the owner.{/tr}
 

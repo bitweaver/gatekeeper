@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.10 2005/08/15 08:52:03 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.11 2005/08/16 04:38:45 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.10 2005/08/15 08:52:03 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.11 2005/08/16 04:38:45 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.1.1.1.2.10 $ $Date: 2005/08/15 08:52:03 $ $Author: spiderr $
+ * @version $Revision: 1.1.1.1.2.11 $ $Date: 2005/08/16 04:38:45 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -164,11 +164,16 @@ function gatekeeper_content_display( &$pContent, &$pParamHash ) {
 	}
 }
 
-function gatekeeper_content_verify_access(  &$pContent ) {
+function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 	global $gBitUser, $gBitSystem;
 
+	$error = NULL;
 	if( !$gBitUser->isRegistered() || !($ret = $pContent->isOwner()) ) {
-		if( !($ret = $gBitUser->isAdmin()) ) {
+		if( !($gBitUser->isAdmin()) ) {
+
+if( !count( $pHash ) ) {
+	$pHash = &$pContent->mInfo;
+}
 			if( $pContent->mDb->isAdvancedPostgresEnabled() ) {
 				global $gBitDb, $gBitSmarty;
 				// This code makes use of the badass /usr/share/pgsql/contrib/tablefunc.sql
@@ -183,29 +188,36 @@ function gatekeeper_content_verify_access(  &$pContent ) {
 						ORDER BY branch
 						";
 		$gBitDb->setFatalActive( FALSE );
-				$tree = $pContent->mDb->getAssoc( $query, array( $pContent->mContentId ) );
+				$tree = $pContent->mDb->getAssoc( $query, array( $pHash['content_id'] ) );
 		$gBitDb->setFatalActive( TRUE );
 				if( $tree ) {
 					// we will assume true here since the prevention cases can repeatedly flag FALSE
-					$ret = TRUE;
 					$lastLevel = -1;
 					foreach( $tree AS $branch => $node ) {
 						if( $node['level'] <= $lastLevel ) {
 							// we have moved followed a branch to the end and there is no security!
-							$ret = TRUE;
 							break;
 						}
 						if( $node['security_id'] ) {
 							$ret = FALSE;
 							if( $node['is_hidden'] ) {
-								$ret = TRUE;
+								// We are on a listing, so we should hide this with an empty error message
+								if( !empty( $pHash['no_fatal'] ) ) {
+									$error['access_control'] = NULL;
+								}
 							}
 							if( $node['is_private'] ) {
-								$gBitSystem->fatalError( tra( 'You cannot view this' ).' '.$pContent->getContentDescription() );
+								$errorMessage = tra( 'You cannot view this' ).' '.strtolower( tra( $pHash['content_description'] ) );
+								if( empty( $pHash['no_fatal'] ) ) {
+									$gBitSystem->fatalError( $errorMessage );
+								} else {
+									$error['access_control'] = $errorMessage;
+								}
 							}
 							if( !empty( $node['access_answer'] ) ) {
-								$pContent->mInfo = array_merge( $pContent->mInfo, $node );
-								if( !($ret = validateUserAccess( $node )) ) {
+								$pContent->mInfo = array_merge( $pHash, $node );
+								if( $valError = validateUserAccess( $node, empty( $pHash['no_fatal'] ) ) ) {
+									$error['access_control'] = $valError;
 								}
 							}
 						}
@@ -213,52 +225,53 @@ function gatekeeper_content_verify_access(  &$pContent ) {
 					}
 				} elseif( !empty( $gBitDb->mDb->_errorMsg ) ) {
 					if( $gBitUser->isOwner() ) {
-						$gBitSmarty->assign( 'feedback', array( 'warning' => $gBitDb->mDb->_errorMsg.'<br/>'.tra( 'Please check the galleries to which this '.$pContent->getContentDescription().' belongs' ) ) );
+						$gBitSmarty->assign( 'feedback', array( 'warning' => $gBitDb->mDb->_errorMsg.'<br/>'.tra( 'Please check the galleries to which this '.$pHash['content_description'].' belongs' ) ) );
 					}
-					$ret = TRUE;
 				} else {
-					$ret = $gBitUser->hasPermission( $pPermName );
+					if( !$gBitUser->hasPermission( $pPermName ) ) {
+						$error['access_control'] = tra( 'Permission denied' );
+					}
 				}
-			} elseif( $pContent->mInfo['security_id'] ) {
+			} elseif( $pHash['security_id'] ) {
 				// order matters here!
-				if( $pContent->mInfo['is_hidden'] == 'y' ) {
+				if( $pHash['is_hidden'] == 'y' ) {
 					$ret = TRUE;
 				}
-				if( $pContent->mInfo['is_private'] == 'y' ) {
-					$gBitSystem->fatalError( tra( 'You cannot view this' ).' '.$pContent->getContentDescription() );
+				if( $pHash['is_private'] == 'y' ) {
+					$errorMessage = tra( 'You cannot view this' ).' '.strtolower( tra( $pHash['content_description'] ) );
+					if( empty( $pHash['no_fatal'] ) ) {
+						$gBitSystem->fatalError( $errorMessage );
+					} else {
+						$error['access_control'] = $errorMessage;
+					}
 				}
-				if( !empty( $pContent->mInfo['access_answer'] ) ) {
-					$ret = validateUserAccess( $pContent->mInfo );
+				if( !empty( $pHash['access_answer'] ) ) {
+					if( !($valError = validateUserAccess( $pHash, empty( $pHash['no_fatal'] ) ) ) ) {
+						$error['access_control'] = $valError;
+					}
 				}
 			}
 		}
 	}
-	// should always be true
-	return $ret;
+	return $error;
 }
 
 
-function validateUserAccess( $pInfo ) {
+function validateUserAccess( &$pInfo, $pFatalOnError = TRUE ) {
 	global $gBitSystem, $gBitSmarty;
 	$ret = FALSE;
 
-	if( !empty( $_SESSION['gatekeeper_security'][$pInfo['security_id']] ) && ($_SESSION['gatekeeper_security'][$pInfo['security_id']] == md5( $pInfo['access_answer'] ) ) ) {
-		$ret = TRUE;
-	} else {
-		if ( !empty($_REQUEST['submit_answer']) ) {	// User is attempting to authenticate themseleves to view this gallery
-			if( isset( $_SESSION['gatekeeper_security'][$pInfo['security_id']] ) &&
-			(!empty( $_REQUEST['try_access_answer'] ) && strtoupper( trim( $_REQUEST['try_access_answer'] ) ) != strtoupper( trim($pInfo['access_answer']) )) ) {
-				$_SESSION['gatekeeper_security'][$pInfo['security_id']] = md5( $pInfo['access_answer'] );
-				$gBitSmarty->assign("failedLogin", "Incorrect Answer");
-				$gBitSystem->display("bitpackage:gatekeeper/authenticate.tpl", "Password Required" );
-				die;
-			}
+	if( empty( $_SESSION['gatekeeper_security'][$pInfo['security_id']] ) || ($_SESSION['gatekeeper_security'][$pInfo['security_id']] != md5( $pInfo['access_answer'] ) ) ) {
+		if( !empty( $_REQUEST['try_access_answer'] ) && strtoupper( trim( $_REQUEST['try_access_answer'] ) ) == strtoupper( trim($pInfo['access_answer']) ) ) {
+			// we have a successful password entry. Set the session so we don't ask for it again
+			$_SESSION['gatekeeper_security'][$pInfo['security_id']] = md5( $pInfo['access_answer'] );
 		} else {
-			if( !empty( $pInfo['access_answer'] ) ) {
+			if( $pFatalOnError ) {
 				$gBitSystem->display("bitpackage:gatekeeper/authenticate.tpl", "Password Required" );
 				die;
+			} else {
+				$ret = '<h2>'.tra( "Password Required" ).'</h2>'.$gBitSmarty->fetch( "bitpackage:gatekeeper/authenticate.tpl" );
 			}
-			$gBitSystem->fatalError( tra( 'You cannot view this' ).' '.$pContent->getContentDescription() );
 		}
 	}
 	return $ret;
