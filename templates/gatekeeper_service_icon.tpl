@@ -10,5 +10,6 @@
 	{if $serviceHash.access_answer}
 		{assign var=securityLabel value="{tr}Password Required{/tr}"}
 	{/if}
-
+{if $securityLabel}
 	{biticon ipackage=liberty iname="security" iexplain=$securityLabel label=TRUE}
+{/if}
