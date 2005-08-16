@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.11 2005/08/16 04:38:45 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.12 2005/08/16 05:10:11 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.11 2005/08/16 04:38:45 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.12 2005/08/16 05:10:11 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.1.1.1.2.11 $ $Date: 2005/08/16 04:38:45 $ $Author: spiderr $
+ * @version $Revision: 1.1.1.1.2.12 $ $Date: 2005/08/16 05:10:11 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -196,33 +196,38 @@ if( !count( $pHash ) ) {
 					foreach( $tree AS $branch => $node ) {
 						if( $node['level'] <= $lastLevel ) {
 							// we have moved followed a branch to the end and there is no security!
+							unset( $errorMessage );
 							break;
 						}
 						if( $node['security_id'] ) {
 							$ret = FALSE;
 							if( $node['is_hidden'] ) {
-								// We are on a listing, so we should hide this with an empty error message
 								if( !empty( $pHash['no_fatal'] ) ) {
-									$error['access_control'] = NULL;
+									// We are on a listing, so we should hide this with an empty error message
+									$errorMessage = '';
 								}
 							}
 							if( $node['is_private'] ) {
-								$errorMessage = tra( 'You cannot view this' ).' '.strtolower( tra( $pHash['content_description'] ) );
-								if( empty( $pHash['no_fatal'] ) ) {
-									$gBitSystem->fatalError( $errorMessage );
-								} else {
-									$error['access_control'] = $errorMessage;
-								}
+								$errorMessage = tra( 'You cannot view this' ).' '.strtolower( tra( $pHash['content_type']['content_description'] ) );
 							}
 							if( !empty( $node['access_answer'] ) ) {
 								$pContent->mInfo = array_merge( $pHash, $node );
-								if( $valError = validateUserAccess( $node, empty( $pHash['no_fatal'] ) ) ) {
-									$error['access_control'] = $valError;
+								if( $valError = gatekeeper_authenticate( $node, empty( $pHash['no_fatal'] ) ) ) {
+									$errorMessage = $valError;
 								}
 							}
 						}
 						$lastLevel = $node['level'];
 					}
+
+					if( isset( $errorMessage ) ) {
+						if( empty( $pHash['no_fatal'] ) ) {
+							$gBitSystem->fatalError( $errorMessage );
+						} else {
+							$error['access_control'] = $errorMessage;
+						}
+					}
+
 				} elseif( !empty( $gBitDb->mDb->_errorMsg ) ) {
 					if( $gBitUser->isOwner() ) {
 						$gBitSmarty->assign( 'feedback', array( 'warning' => $gBitDb->mDb->_errorMsg.'<br/>'.tra( 'Please check the galleries to which this '.$pHash['content_description'].' belongs' ) ) );
@@ -238,7 +243,7 @@ if( !count( $pHash ) ) {
 					$ret = TRUE;
 				}
 				if( $pHash['is_private'] == 'y' ) {
-					$errorMessage = tra( 'You cannot view this' ).' '.strtolower( tra( $pHash['content_description'] ) );
+					$errorMessage = tra( 'You cannot view this' ).' '.strtolower( tra( $pHash['content_type']['content_description'] ) );
 					if( empty( $pHash['no_fatal'] ) ) {
 						$gBitSystem->fatalError( $errorMessage );
 					} else {
@@ -246,7 +251,7 @@ if( !count( $pHash ) ) {
 					}
 				}
 				if( !empty( $pHash['access_answer'] ) ) {
-					if( !($valError = validateUserAccess( $pHash, empty( $pHash['no_fatal'] ) ) ) ) {
+					if( !($valError = gatekeeper_authenticate( $pHash, empty( $pHash['no_fatal'] ) ) ) ) {
 						$error['access_control'] = $valError;
 					}
 				}
@@ -257,7 +262,7 @@ if( !count( $pHash ) ) {
 }
 
 
-function validateUserAccess( &$pInfo, $pFatalOnError = TRUE ) {
+function gatekeeper_authenticate( &$pInfo, $pFatalOnError = TRUE ) {
 	global $gBitSystem, $gBitSmarty;
 	$ret = FALSE;
 
