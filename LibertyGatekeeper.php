@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.12 2005/08/16 05:10:11 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.13 2005/08/16 07:33:02 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.12 2005/08/16 05:10:11 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.13 2005/08/16 07:33:02 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.1.1.1.2.12 $ $Date: 2005/08/16 05:10:11 $ $Author: spiderr $
+ * @version $Revision: 1.1.1.1.2.13 $ $Date: 2005/08/16 07:33:02 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -167,13 +167,13 @@ function gatekeeper_content_display( &$pContent, &$pParamHash ) {
 function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 	global $gBitUser, $gBitSystem;
 
-	$error = NULL;
-	if( !$gBitUser->isRegistered() || !($ret = $pContent->isOwner()) ) {
-		if( !($gBitUser->isAdmin()) ) {
-
 if( !count( $pHash ) ) {
 	$pHash = &$pContent->mInfo;
 }
+	$error = NULL;
+	if( !$gBitUser->isRegistered() || !($pHash['user_id'] = $gBitUser->mUserId) ) {
+		if( !($gBitUser->isAdmin()) ) {
+
 			if( $pContent->mDb->isAdvancedPostgresEnabled() ) {
 				global $gBitDb, $gBitSmarty;
 				// This code makes use of the badass /usr/share/pgsql/contrib/tablefunc.sql
