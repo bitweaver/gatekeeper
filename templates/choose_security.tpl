@@ -20,8 +20,9 @@ function toggleSecuirtyEdit(form) {
 				{/foreach}
 			<option value="new">{tr}Create New Security Level{/tr}...</option>
 		</select>
+
 		{if $securities}
-			<a href="{$smarty.const.GATEKEEPER_PKG_URL}">Edit Security Levels</a>
+			&nbsp; <a href="{$smarty.const.GATEKEEPER_PKG_URL}">Edit Security Levels</a>
 		{/if}
 	{/forminput}
 </div>
