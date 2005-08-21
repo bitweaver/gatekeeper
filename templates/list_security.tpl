@@ -27,7 +27,7 @@
 						</td>
 						<td class="actionicon">
 							<a title="{tr}Edit{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}">{biticon ipackage=liberty iname="config" iexplain="Edit"}</a>
-							<a title="{tr}Delete{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}&deletesecurity=1">{biticon ipackage=liberty iname="delete" iexplain="Delete Image"}</a>
+							<a title="{tr}Delete{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}&deletesecurity=1">{biticon ipackage=liberty iname="delete" iexplain="Delete"}</a>
 						</td>
 					</tr>
 				{/foreach}
