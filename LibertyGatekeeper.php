@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.14 2005/08/16 21:10:16 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.15 2005/08/21 20:51:18 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.14 2005/08/16 21:10:16 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.15 2005/08/21 20:51:18 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.1.1.1.2.14 $ $Date: 2005/08/16 21:10:16 $ $Author: spiderr $
+ * @version $Revision: 1.1.1.1.2.15 $ $Date: 2005/08/21 20:51:18 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -159,9 +159,7 @@ function gatekeeper_content_store( &$pObject, &$pParamHash ) {
 
 function gatekeeper_content_display( &$pContent, &$pParamHash ) {
 	global $gBitSystem, $gBitSmarty;
-	if( !$pContent->hasUserPermission( $pParamHash['perm_name'] ) ) {
-		gatekeeper_content_verify_access(  $pContent );
-	}
+	$pContent->hasUserPermission( $pParamHash['perm_name'] );
 }
 
 function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
