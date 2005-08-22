@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.15 2005/08/21 20:51:18 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.16 2005/08/22 17:39:47 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.15 2005/08/21 20:51:18 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.16 2005/08/22 17:39:47 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.1.1.1.2.15 $ $Date: 2005/08/21 20:51:18 $ $Author: spiderr $
+ * @version $Revision: 1.1.1.1.2.16 $ $Date: 2005/08/22 17:39:47 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -234,10 +234,6 @@ if( !count( $pHash ) ) {
 				} elseif( !empty( $gBitDb->mDb->_errorMsg ) ) {
 					if( $gBitUser->isOwner() ) {
 						$gBitSmarty->assign( 'feedback', array( 'warning' => $gBitDb->mDb->_errorMsg.'<br/>'.tra( 'Please check the galleries to which this '.$pHash['content_description'].' belongs' ) ) );
-					}
-				} else {
-					if( !$gBitUser->hasPermission( $pPermName ) ) {
-						$error['access_control'] = tra( 'Permission denied' );
 					}
 				}
 			} elseif( $pHash['security_id'] ) {
