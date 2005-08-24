@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.3 2005/08/01 18:40:28 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.4 2005/08/24 20:51:03 squareing Exp $
  * @package gatekeeper
  * @subpackage functions
  * @author spider <spider@steelsun.com>
@@ -18,7 +18,7 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: edit.php,v 1.3 2005/08/01 18:40:28 squareing Exp $
+// $Id: edit.php,v 1.4 2005/08/24 20:51:03 squareing Exp $
 
 /**
  * required setup
@@ -47,10 +47,11 @@ elseif( !empty( $sec ) ||
 		if( $gGatekeeper->storeSecurity( $_REQUEST ) ) {
 			header( 'Location: '.GATEKEEPER_PKG_URL );
 		} else {
-			$gBitSmarty->assign_by_ref( 'gatekeeperErrors', $gGatekeeper->mErrors );
+			$gBitSmarty->assign_by_ref( 'errors', $gGatekeeper->mErrors );
+			$_REQUEST['selected'] = $_REQUEST['access_level'];
+			$gBitSmarty->assign_by_ref( 'security', $_REQUEST );
 		}
 	} elseif( !empty( $_REQUEST['deletesecurity'] ) ) {
-
 		if( empty( $_REQUEST['confirm'] ) ) {
 			$formHash['deletesecurity'] = $_REQUEST['deletesecurity'];
 			$formHash['security_id'] = $_REQUEST['security_id'];
@@ -59,9 +60,8 @@ elseif( !empty( $sec ) ||
 			header( 'Location: '.GATEKEEPER_PKG_URL );
 			die;
 		}
-vd( $gGatekeeper );
 	}
-	if (empty( $_REQUEST['newsecurity'] )) {
+	if (empty( $_REQUEST['newsecurity'] ) && empty( $_REQUEST['savesecurity'] ) ) {
 		if ($sec['access_answer']) {
 			$sec['is_protected'] = 'y';
 			$sec['selected'] = 'protected';

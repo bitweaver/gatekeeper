@@ -2,10 +2,14 @@
 <div class="listing gatekeeper">
 	{if $securities}
 		<div class="header">
-		  <h1>{tr}Security Lists{/tr}</h1>
+			<h1>{tr}Security Lists{/tr}</h1>
 		</div>
+
 		<div class="body">
+			{smartlink ititle="Add Security Level" ipackage="gatekeeper" ifile="edit.php" newsecurity=1}
+
 			<table class="data">
+				<caption>{tr}Security Levels{/tr}</caption>
 				<tr>
 					<th>{tr}Security Level Description{/tr}</th>
 					<th>{tr}Type{/tr}</th>
@@ -23,12 +27,11 @@
 						</td>
 						<td class="actionicon">
 							<a title="{tr}Edit{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}">{biticon ipackage=liberty iname="config" iexplain="Edit"}</a>
-							<a title="{tr}Delete{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}&deletesecurity=1">{biticon ipackage=liberty iname="delete" iexplain="Delete Image"}</a>
+							<a title="{tr}Delete{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}&deletesecurity=1">{biticon ipackage=liberty iname="delete" iexplain="Delete"}</a>
 						</td>
 					</tr>
 				{/foreach}
 			</table>
-			<a title="{tr}Add Security Level{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?newsecurity=1">Add Security Level</a>
 		</div>	<!-- end .body -->
 	{else}
 		{include file="bitpackage:gatekeeper/edit_security.tpl"}
