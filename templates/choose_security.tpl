@@ -1,3 +1,4 @@
+{if $gBitUser->isRegistered()}
 {literal}
 <script type="text/javascript">
 //<![CDATA[
@@ -42,3 +43,4 @@ function toggleSecuirtyEdit(form) {
 	//]]>
 </script>
 {/literal}
+{/if}
