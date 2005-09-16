@@ -1,10 +1,10 @@
 <?php
 global $gBitSystem, $gBitSmarty;
-$gBitSystem->registerPackage( 'gatekeeper', dirname( __FILE__).'/' );
+$gBitSystem->registerPackage( 'gatekeeper', dirname( __FILE__).'/', TRUE, LIBERTY_SERVICE_ACCESS_CONTROL );
 
 require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
 
-if( !empty( $gLibertySystem ) ) {
+if( $gBitSystem->isPackageActive( 'gatekeeper' ) ) {
 	$gLibertySystem->registerService( LIBERTY_SERVICE_ACCESS_CONTROL, GATEKEEPER_PKG_NAME, array(
 		'content_display_function' => 'gatekeeper_content_display',
 		'content_edit_function' => 'gatekeeper_content_edit',
