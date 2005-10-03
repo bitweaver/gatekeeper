@@ -43,14 +43,14 @@ function updateControls(form) {
 	{forminput}
 		{formlabel label="Question" for="access_question"}
 		{forminput}
-			<input type="text" size="50" maxlength="256" name="access_question" id="access_question" value="{$security.access_question|default:"What is the password to view this `$gContent->mType.content_description`?"}" /><br/>
+			<input type="text" size="40" maxlength="256" name="access_question" id="access_question" value="{$security.access_question|default:"What is the password to view this `$gContent->mType.content_description`?"}" /><br/>
 		{/forminput}
 	{/forminput}
 
 	{forminput}
 		{formlabel label="Answer" for="access_answer"}
 		{forminput}
-			<input type="text" size="50" maxlength="128" name="access_answer" id="access_answer" value="{$security.access_answer}" /><br/>
+			<input type="text" size="40" maxlength="128" name="access_answer" id="access_answer" value="{$security.access_answer}" /><br/>
 		{/forminput}
 		{formhelp note="Users will be prompted to correctly answer the above question before they can view this `$gContent->mType.content_description`"}
 	{/forminput}
