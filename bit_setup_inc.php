@@ -1,6 +1,6 @@
 <?php
 global $gBitSystem, $gBitSmarty;
-$gBitSystem->registerPackage( 'gatekeeper', dirname( __FILE__).'/' );
+$gBitSystem->registerPackage( 'gatekeeper', dirname( __FILE__).'/', TRUE, LIBERTY_SERVICE_ACCESS_CONTROL );
 
 require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
 
@@ -11,9 +11,8 @@ if( $gBitSystem->isPackageActive( 'gatekeeper' ) ) {
 		'content_store_function' => 'gatekeeper_content_store',
 		'content_load_function' => 'gatekeeper_content_load',
 		'content_verify_access' => 'gatekeeper_content_verify_access',
-		'content_edit_tpl' => 'bitpackage:gatekeeper/choose_security.tpl',
+		'content_edit_mini_tpl' => 'bitpackage:gatekeeper/choose_security.tpl',
 		'content_icon_tpl' => 'bitpackage:gatekeeper/gatekeeper_service_icon.tpl',
 	) );
 }
-
 ?>
