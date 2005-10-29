@@ -3,20 +3,20 @@
 $tables = array(
 
 'tiki_security' => " 
-  security_id I4 PRIMARY,
-  user_id I4 NOTNULL,
-  security_description C(160) NOTNULL,
-  is_private C(1),
-  is_hidden C(1),
-  access_question C(250),
-  access_answer C(128)
-  CONSTRAINTS	', CONSTRAINT `tiki_access_user_ref` FOREIGN KEY (`user_id`) REFERENCES `".BIT_DB_PREFIX."users_users` (`user_id`)'
+	security_id I4 PRIMARY,
+	user_id I4 NOTNULL,
+	security_description C(160) NOTNULL,
+	is_private C(1),
+	is_hidden C(1),
+	access_question C(250),
+	access_answer C(128)
+	CONSTRAINTS	', CONSTRAINT `tiki_access_user_ref` FOREIGN KEY (`user_id`) REFERENCES `".BIT_DB_PREFIX."users_users` (`user_id`)'
 ",
 
 'tiki_content_security_map' => "
-  security_id I4 PRIMARY,
-  content_id I4 PRIMARY
-  CONSTRAINTS	', CONSTRAINT `tiki_consec_sec_ref` FOREIGN KEY (`security_id`) REFERENCES `".BIT_DB_PREFIX."tiki_security` (`security_id`)
+	security_id I4 PRIMARY,
+	content_id I4 PRIMARY
+	CONSTRAINTS	', CONSTRAINT `tiki_consec_sec_ref` FOREIGN KEY (`security_id`) REFERENCES `".BIT_DB_PREFIX."tiki_security` (`security_id`)
 				 , CONSTRAINT `tiki_access_user_ref` FOREIGN KEY (`content_id`) REFERENCES `".BIT_DB_PREFIX."tiki_content` (`content_id`)'
 ",
 
@@ -50,18 +50,19 @@ $sequences = array (
 );
 $gBitInstaller->registerSchemaSequences( GATEKEEPER_PKG_NAME, $sequences );
 
-$gBitInstaller->registerSchemaDefault( GATEKEEPER_PKG_NAME, array(
+// ### Default UserPermissions
+$gBitInstaller->registerUserPermissions( GATEKEEPER_PKG_NAME, array(
+	array('bit_p_create_gatekeeper', 'Can create a gatekeeper', 'registered', GATEKEEPER_PKG_NAME),
+	array('bit_p_gatekeeper_edit', 'Can edit any gatekeeper', 'editors', GATEKEEPER_PKG_NAME),
+	array('bit_p_gatekeeper_admin', 'Can admin gatekeeper', 'editors', GATEKEEPER_PKG_NAME),
+	array('bit_p_read_gatekeeper', 'Can read gatekeeper', 'basic', GATEKEEPER_PKG_NAME),
+) );
 
-	"INSERT INTO `".BIT_DB_PREFIX."users_permissions` (`perm_name`, `perm_desc`, `level`, `package`) VALUES ('bit_p_create_gatekeeper', 'Can create a gatekeeper', 'registered', 'gatekeeper')",
-	"INSERT INTO `".BIT_DB_PREFIX."users_permissions` (`perm_name`, `perm_desc`, `level`, `package`) VALUES ('bit_p_gatekeeper_edit', 'Can edit any gatekeeper', 'editors', 'gatekeeper')",
-	"INSERT INTO `".BIT_DB_PREFIX."users_permissions` (`perm_name`, `perm_desc`, `level`, `package`) VALUES ('bit_p_gatekeeper_admin', 'Can admin gatekeeper', 'editors', 'gatekeeper')",
-	"INSERT INTO `".BIT_DB_PREFIX."users_permissions` (`perm_name`, `perm_desc`, `level`, `package`) VALUES ('bit_p_read_gatekeeper', 'Can read gatekeeper', 'basic', 'gatekeeper')",
-
-	"INSERT INTO `".BIT_DB_PREFIX."tiki_preferences`(`package`,`name`,`value`) VALUES ('gatekeeper', 'gatekeeper_default_ordering','title_desc')",
-	"INSERT INTO `".BIT_DB_PREFIX."tiki_preferences`(`package`,`name`,`value`) VALUES ('gatekeeper', 'gatekeeper_list_content_id','y')",
-	"INSERT INTO `".BIT_DB_PREFIX."tiki_preferences`(`package`,`name`,`value`) VALUES ('gatekeeper', 'gatekeeper_list_title','y')",
-	"INSERT INTO `".BIT_DB_PREFIX."tiki_preferences`(`package`,`name`,`value`) VALUES ('gatekeeper', 'gatekeeper_list_description','y')",
-
-
+// ### Default Preferences
+$gBitInstaller->registerPreferences( GATEKEEPER_PKG_NAME, array(
+	array(GATEKEEPER_PKG_NAME, 'gatekeeper_default_ordering','title_desc'),
+	array(GATEKEEPER_PKG_NAME, 'gatekeeper_list_content_id','y'),
+	array(GATEKEEPER_PKG_NAME, 'gatekeeper_list_title','y'),
+	array(GATEKEEPER_PKG_NAME, 'gatekeeper_list_description','y'),
 ) );
 ?>
