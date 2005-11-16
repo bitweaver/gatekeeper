@@ -11,14 +11,13 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: index.php,v 1.1.1.1.2.3 2005/11/16 18:46:20 mej Exp $
+// $Id: index.php,v 1.1.1.1.2.4 2005/11/16 19:11:57 mej Exp $
 
 require_once( '../bit_setup_inc.php' );
 
 $gBitSystem->verifyPackage( 'gatekeeper' );
 
 require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
-require_once( USERS_PKG_PATH.'bookmark_lib.php' );
 
 $lists = $gGatekeeper->getSecurityList();
 $gBitSmarty->assign_by_ref( 'securities', $lists );
