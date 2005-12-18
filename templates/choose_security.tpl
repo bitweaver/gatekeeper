@@ -1,13 +1,11 @@
 {if $gBitUser->isRegistered()}
 {literal}
-<script type="text/javascript">
-//<![CDATA[
+<script type="text/javascript">//<![CDATA[
 function toggleSecuirtyEdit(form) {
-	ele = document.getElementById("securityselect");
+	ele = $("securityselect");
 	setBlockDisplay( "securityedit", ele.value=="new" );
 }
-//]]>
-</script>
+//]]></script>
 {/literal}
 {if !$serviceHash}
 	{assign var=serviceHash value=$gContent->mInfo}
@@ -37,10 +35,8 @@ function toggleSecuirtyEdit(form) {
 {/strip}
 
 {literal}
-<script type="text/javascript">
-	//<![CDATA[
+<script type="text/javascript">//<![CDATA[
 	toggleBlockDisplay('securityedit');
-	//]]>
-</script>
+//]]></script>
 {/literal}
 {/if}
