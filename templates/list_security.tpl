@@ -5,6 +5,8 @@
 			<h1>{tr}Security Lists{/tr}</h1>
 		</div>
 
+		{include file="bitpackage:users/my_bitweaver_bar.tpl"}
+
 		<div class="body">
 			{smartlink ititle="Add Security Level" ipackage="gatekeeper" ifile="edit.php" newsecurity=1}
 
