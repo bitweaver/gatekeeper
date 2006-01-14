@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.6 2005/12/26 12:24:10 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.7 2006/01/14 19:54:23 squareing Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.6 2005/12/26 12:24:10 squareing Exp $
+ * $Id: LibertyGatekeeper.php,v 1.7 2006/01/14 19:54:23 squareing Exp $
  * @package gatekeeper
  */
 
@@ -29,7 +29,7 @@ require_once( USERS_PKG_PATH.'bookmark_lib.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.6 $ $Date: 2005/12/26 12:24:10 $ $Author: squareing $
+ * @version $Revision: 1.7 $ $Date: 2006/01/14 19:54:23 $ $Author: squareing $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -237,7 +237,7 @@ if( !count( $pHash ) ) {
 						$gBitSmarty->assign( 'feedback', array( 'warning' => $gBitDb->mDb->_errorMsg.'<br/>'.tra( 'Please check the galleries to which this '.$pHash['content_description'].' belongs' ) ) );
 					}
 				}
-			} elseif( $pHash['security_id'] ) {
+			} elseif( !empty( $pHash['security_id'] ) ) {
 				// order matters here!
 				if( $pHash['is_hidden'] == 'y' ) {
 					$ret = TRUE;
