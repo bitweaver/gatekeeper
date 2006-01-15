@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.19 2006/01/14 16:44:28 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.20 2006/01/15 01:42:41 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.19 2006/01/14 16:44:28 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.20 2006/01/15 01:42:41 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -29,7 +29,7 @@ require_once( USERS_PKG_PATH.'bookmark_lib.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.1.1.1.2.19 $ $Date: 2006/01/14 16:44:28 $ $Author: spiderr $
+ * @version $Revision: 1.1.1.1.2.20 $ $Date: 2006/01/15 01:42:41 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -166,10 +166,9 @@ function gatekeeper_content_display( &$pContent, &$pParamHash ) {
 function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 	global $gBitUser, $gBitSystem;
 
-if( !count( $pHash ) ) {
-	$pHash = &$pContent->mInfo;
-}
-
+	if( !count( $pHash ) ) {
+		$pHash = &$pContent->mInfo;
+	}
 	$error = NULL;
 	if( !$gBitUser->isRegistered() || !($pHash['user_id'] == $gBitUser->mUserId) ) {
 		if( !($gBitUser->isAdmin()) ) {
