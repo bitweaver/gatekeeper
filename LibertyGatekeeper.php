@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.20 2006/01/15 01:42:41 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.21 2006/01/22 14:21:30 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.20 2006/01/15 01:42:41 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.21 2006/01/22 14:21:30 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -29,7 +29,7 @@ require_once( USERS_PKG_PATH.'bookmark_lib.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.1.1.1.2.20 $ $Date: 2006/01/15 01:42:41 $ $Author: spiderr $
+ * @version $Revision: 1.1.1.1.2.21 $ $Date: 2006/01/22 14:21:30 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -77,13 +77,13 @@ class LibertyGatekeeper extends LibertyBase {
 					WHERE `content_id` = ?";
 			$rs = $this->mDb->query( $sql, array( $pParamHash['content_id'] ) );
 		}
-		if( @$this->verifyId( $pParamHash['access_level'] ) || ( @$this->verifyId( $pParamHash['security_id'] ) && $pParamHash['security_id'] != 'public') ) {
+		if( !empty( $pParamHash['access_level'] ) || (@$this->verifyId( $pParamHash['security_id'] ) && $pParamHash['security_id'] != 'public') ) {
 			if( $this->verifySecurity( $pParamHash ) && !empty( $pParamHash['security_store'] ) ) {
 				trim_array( $pParamHash );
 				if( !empty( $pParamHash['security_store'] ) ) {
 					global $gBitUser;
 					$table = BIT_DB_PREFIX."tiki_security";
-					if( @$this->verifyId( $pParamHash['security_id'] ) ) {
+					if( !(@$this->verifyId( $pParamHash['security_id'] )) ) {
 						$pParamHash['security_store']['user_id'] = $gBitUser->mUserId;
 						$pParamHash['security_id'] = $this->mDb->GenID( 'tiki_security_id_seq' );
 						$pParamHash['security_store']['security_id'] = $pParamHash['security_id'];
