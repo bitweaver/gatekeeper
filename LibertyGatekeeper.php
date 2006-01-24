@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.8 2006/01/15 07:58:56 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.9 2006/01/24 21:49:04 squareing Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.8 2006/01/15 07:58:56 squareing Exp $
+ * $Id: LibertyGatekeeper.php,v 1.9 2006/01/24 21:49:04 squareing Exp $
  * @package gatekeeper
  */
 
@@ -29,7 +29,7 @@ require_once( USERS_PKG_PATH.'bookmark_lib.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.8 $ $Date: 2006/01/15 07:58:56 $ $Author: squareing $
+ * @version $Revision: 1.9 $ $Date: 2006/01/24 21:49:04 $ $Author: squareing $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -83,7 +83,7 @@ class LibertyGatekeeper extends LibertyBase {
 				if( !empty( $pParamHash['security_store'] ) ) {
 					global $gBitUser;
 					$table = BIT_DB_PREFIX."tiki_security";
-					if( @$this->verifyId( $pParamHash['security_id'] ) ) {
+					if( !(@$this->verifyId( $pParamHash['security_id'] )) ) {
 						$pParamHash['security_store']['user_id'] = $gBitUser->mUserId;
 						$pParamHash['security_id'] = $this->mDb->GenID( 'tiki_security_id_seq' );
 						$pParamHash['security_store']['security_id'] = $pParamHash['security_id'];
