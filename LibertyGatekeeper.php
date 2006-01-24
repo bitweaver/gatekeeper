@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.21 2006/01/22 14:21:30 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.1.1.1.2.22 2006/01/24 21:50:44 squareing Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.21 2006/01/22 14:21:30 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.1.1.1.2.22 2006/01/24 21:50:44 squareing Exp $
  * @package gatekeeper
  */
 
@@ -29,7 +29,7 @@ require_once( USERS_PKG_PATH.'bookmark_lib.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.1.1.1.2.21 $ $Date: 2006/01/22 14:21:30 $ $Author: spiderr $
+ * @version $Revision: 1.1.1.1.2.22 $ $Date: 2006/01/24 21:50:44 $ $Author: squareing $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -77,7 +77,7 @@ class LibertyGatekeeper extends LibertyBase {
 					WHERE `content_id` = ?";
 			$rs = $this->mDb->query( $sql, array( $pParamHash['content_id'] ) );
 		}
-		if( !empty( $pParamHash['access_level'] ) || (@$this->verifyId( $pParamHash['security_id'] ) && $pParamHash['security_id'] != 'public') ) {
+		if( @$this->verifyId( $pParamHash['access_level'] ) || ( @$this->verifyId( $pParamHash['security_id'] ) && $pParamHash['security_id'] != 'public') ) {
 			if( $this->verifySecurity( $pParamHash ) && !empty( $pParamHash['security_store'] ) ) {
 				trim_array( $pParamHash );
 				if( !empty( $pParamHash['security_store'] ) ) {
