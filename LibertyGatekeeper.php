@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.10 2006/01/25 08:41:27 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.11 2006/01/31 17:22:34 bitweaver Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.10 2006/01/25 08:41:27 squareing Exp $
+ * $Id: LibertyGatekeeper.php,v 1.11 2006/01/31 17:22:34 bitweaver Exp $
  * @package gatekeeper
  */
 
@@ -16,7 +16,6 @@
  * required setup
  */
 require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
-require_once( USERS_PKG_PATH.'bookmark_lib.php' );
 
 /**
  * Gatekeeper class to illustrate best practices when creating a new bitweaver package that
@@ -29,7 +28,7 @@ require_once( USERS_PKG_PATH.'bookmark_lib.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.10 $ $Date: 2006/01/25 08:41:27 $ $Author: squareing $
+ * @version $Revision: 1.11 $ $Date: 2006/01/31 17:22:34 $ $Author: bitweaver $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
