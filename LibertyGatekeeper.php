@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.11 2006/01/31 17:22:34 bitweaver Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.12 2006/01/31 20:17:36 bitweaver Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.11 2006/01/31 17:22:34 bitweaver Exp $
+ * $Id: LibertyGatekeeper.php,v 1.12 2006/01/31 20:17:36 bitweaver Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.11 $ $Date: 2006/01/31 17:22:34 $ $Author: bitweaver $
+ * @version $Revision: 1.12 $ $Date: 2006/01/31 20:17:36 $ $Author: bitweaver $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -72,7 +72,7 @@ class LibertyGatekeeper extends LibertyBase {
 	function storeSecurity( &$pParamHash ) {
 		if( @$this->verifyId( $pParamHash['content_id'] ) ) {
 			// We'll first nuke any security mappings for this content_id
-			$sql = "DELETE FROM `".BIT_DB_PREFIX."tiki_content_security_map`
+			$sql = "DELETE FROM `".BIT_DB_PREFIX."gatekeeper_security_map`
 					WHERE `content_id` = ?";
 			$rs = $this->mDb->query( $sql, array( $pParamHash['content_id'] ) );
 		}
@@ -81,7 +81,7 @@ class LibertyGatekeeper extends LibertyBase {
 				trim_array( $pParamHash );
 				if( !empty( $pParamHash['security_store'] ) ) {
 					global $gBitUser;
-					$table = BIT_DB_PREFIX."tiki_security";
+					$table = BIT_DB_PREFIX."gatekeeper_security";
 					if( !(@$this->verifyId( $pParamHash['security_id'] )) ) {
 						$pParamHash['security_store']['user_id'] = $gBitUser->mUserId;
 						$pParamHash['security_id'] = $this->mDb->GenID( 'tiki_security_id_seq' );
@@ -95,7 +95,7 @@ class LibertyGatekeeper extends LibertyBase {
 			}
 
 			if( @$this->verifyId( $pParamHash['content_id'] ) && @$this->verifyId( $pParamHash['security_id'] ) ) {
-				$sql = "INSERT INTO `".BIT_DB_PREFIX."tiki_content_security_map` ( `content_id`, `security_id` ) VALUES (?,?)";
+				$sql = "INSERT INTO `".BIT_DB_PREFIX."gatekeeper_security_map` ( `content_id`, `security_id` ) VALUES (?,?)";
 				$rs = $this->mDb->query( $sql, array( $pParamHash['content_id'], $pParamHash['security_id'] ) );
 			}
 		}
@@ -114,7 +114,7 @@ class LibertyGatekeeper extends LibertyBase {
 			array_push( $bindVars, $pSecurityId );
 		}
 
-		$query = "SELECT `security_id` AS `hash_id`, `security_id`, `user_id`, `security_description`, `is_private`, `is_hidden`, `access_question`, `access_answer` FROM `".BIT_DB_PREFIX."tiki_security` WHERE `user_id`=? $whereSql";
+		$query = "SELECT `security_id` AS `hash_id`, `security_id`, `user_id`, `security_description`, `is_private`, `is_hidden`, `access_question`, `access_answer` FROM `".BIT_DB_PREFIX."gatekeeper_security` WHERE `user_id`=? $whereSql";
 		return $this->mDb->getAssoc( $query, $bindVars );
 	}
 
@@ -124,10 +124,10 @@ class LibertyGatekeeper extends LibertyBase {
 		if( @$this->verifyId( $pSecurityId ) ) {
 			$this->mDb->StartTrans();
 
-			$sql = "DELETE FROM `".BIT_DB_PREFIX."tiki_content_security_map` WHERE security_id=?";
+			$sql = "DELETE FROM `".BIT_DB_PREFIX."gatekeeper_security_map` WHERE security_id=?";
 			$rs = $this->mDb->query( $sql, array( $pSecurityId ) );
 
-			$sql = "DELETE FROM `".BIT_DB_PREFIX."tiki_security` WHERE security_id=?";
+			$sql = "DELETE FROM `".BIT_DB_PREFIX."gatekeeper_security` WHERE security_id=?";
 			$rs = $this->mDb->query( $sql, array( $pSecurityId ) );
 
 			$this->mDb->CompleteTrans();
@@ -140,7 +140,7 @@ class LibertyGatekeeper extends LibertyBase {
 function gatekeeper_content_load() {
 	$ret = array(
 		'select_sql' => ' ,ts.`security_id` AS `has_access_control`, ts.`security_id`, ts.`security_description`, ts.`is_private`, ts.`is_hidden`, ts.`access_question`, ts.`access_answer`  ',
-		'join_sql' => " LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_content_security_map` tcs ON ( tc.`content_id`=tcs.`content_id` )  LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_security` ts ON ( tcs.`security_id`=ts.`security_id` ) ",
+		'join_sql' => " LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security_map` cg ON ( tc.`content_id`=cg.`content_id` )  LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` ts ON ( cg.`security_id`=ts.`security_id` ) ",
 	);
 	return $ret;
 }
@@ -179,9 +179,9 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 				// without hitting a security_id. If there is clear path it returns TRUE. If there is a security_id, then
 				// it determines if the current user has permission
 				$query = "SELECT branch,level,cb_item_content_id,cb_gallery_content_id,ts.*
-						FROM connectby('`".BIT_DB_PREFIX."tiki_fisheye_gallery_image_map`', '`gallery_content_id`', '`item_content_id`', ?, 0, '/') AS t(`cb_gallery_content_id` int,`cb_item_content_id` int, `level` int, `branch` text)
-							LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_content_security_map` tcsm ON (`cb_gallery_content_id`=tcsm.`content_id`)
-							LEFT OUTER JOIN `".BIT_DB_PREFIX."tiki_security` ts ON (ts.`security_id`=tcsm.`security_id`)
+						FROM connectby('`".BIT_DB_PREFIX."fisheye_gallery_image_map`', '`gallery_content_id`', '`item_content_id`', ?, 0, '/') AS t(`cb_gallery_content_id` int,`cb_item_content_id` int, `level` int, `branch` text)
+							LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security_map` cgm ON (`cb_gallery_content_id`=cgm.`content_id`)
+							LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` ts ON (ts.`security_id`=cgm.`security_id`)
 						ORDER BY branch
 						";
 		$gBitDb->setFatalActive( FALSE );

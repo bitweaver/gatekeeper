@@ -2,7 +2,7 @@
 
 $tables = array(
 
-'tiki_security' => " 
+'gatekeeper_security' => " 
 	security_id I4 PRIMARY,
 	user_id I4 NOTNULL,
 	security_description C(160) NOTNULL,
@@ -13,10 +13,10 @@ $tables = array(
 	CONSTRAINTS	', CONSTRAINT `tiki_access_user_ref` FOREIGN KEY (`user_id`) REFERENCES `".BIT_DB_PREFIX."users_users` (`user_id`)'
 ",
 
-'tiki_content_security_map' => "
+'gatekeeper_security_map' => "
 	security_id I4 PRIMARY,
 	content_id I4 PRIMARY
-	CONSTRAINTS	', CONSTRAINT `tiki_consec_sec_ref` FOREIGN KEY (`security_id`) REFERENCES `".BIT_DB_PREFIX."tiki_security` (`security_id`)
+	CONSTRAINTS	', CONSTRAINT `tiki_consec_sec_ref` FOREIGN KEY (`security_id`) REFERENCES `".BIT_DB_PREFIX."gatekeeper_security` (`security_id`)
 				 , CONSTRAINT `tiki_access_user_ref` FOREIGN KEY (`content_id`) REFERENCES `".BIT_DB_PREFIX."tiki_content` (`content_id`)'
 ",
 
@@ -38,9 +38,9 @@ $gBitInstaller->registerPackageInfo( GATEKEEPER_PKG_NAME, array(
 
 // ### Indexes
 $indices = array (
-	'tiki_security_user_idx' => array( 'table' => 'tiki_security', 'cols' => 'user_id', 'opts' => NULL ),
-	'tiki_consec_security_idx' => array( 'table' => 'tiki_content_security_map', 'cols' => 'security_id', 'opts' => NULL ),
-	'tiki_consec_content_idx' => array( 'table' => 'tiki_content_security_map', 'cols' => 'content_id', 'opts' => array( 'UNIQUE' ) ),
+	'tiki_security_user_idx' => array( 'table' => 'gatekeeper_security', 'cols' => 'user_id', 'opts' => NULL ),
+	'tiki_consec_security_idx' => array( 'table' => 'gatekeeper_security_map', 'cols' => 'security_id', 'opts' => NULL ),
+	'tiki_consec_content_idx' => array( 'table' => 'gatekeeper_security_map', 'cols' => 'content_id', 'opts' => array( 'UNIQUE' ) ),
 );
 $gBitInstaller->registerSchemaIndexes( GATEKEEPER_PKG_NAME, $indices );
 
