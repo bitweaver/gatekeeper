@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.12 2006/01/31 20:17:36 bitweaver Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.13 2006/02/01 18:41:14 squareing Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.12 2006/01/31 20:17:36 bitweaver Exp $
+ * $Id: LibertyGatekeeper.php,v 1.13 2006/02/01 18:41:14 squareing Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.12 $ $Date: 2006/01/31 20:17:36 $ $Author: bitweaver $
+ * @version $Revision: 1.13 $ $Date: 2006/02/01 18:41:14 $ $Author: squareing $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -139,8 +139,8 @@ class LibertyGatekeeper extends LibertyBase {
 
 function gatekeeper_content_load() {
 	$ret = array(
-		'select_sql' => ' ,ts.`security_id` AS `has_access_control`, ts.`security_id`, ts.`security_description`, ts.`is_private`, ts.`is_hidden`, ts.`access_question`, ts.`access_answer`  ',
-		'join_sql' => " LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security_map` cg ON ( tc.`content_id`=cg.`content_id` )  LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` ts ON ( cg.`security_id`=ts.`security_id` ) ",
+		'select_sql' => ' ,ls.`security_id` AS `has_access_control`, ls.`security_id`, ls.`security_description`, ls.`is_private`, ls.`is_hidden`, ls.`access_question`, ls.`access_answer`  ',
+		'join_sql' => " LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security_map` cg ON ( lc.`content_id`=cg.`content_id` )  LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` ls ON ( cg.`security_id`=ls.`security_id` ) ",
 	);
 	return $ret;
 }
@@ -178,10 +178,10 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 				// This code pulls all branches for the current node and determines if there is a path from this content to the root
 				// without hitting a security_id. If there is clear path it returns TRUE. If there is a security_id, then
 				// it determines if the current user has permission
-				$query = "SELECT branch,level,cb_item_content_id,cb_gallery_content_id,ts.*
+				$query = "SELECT branch,level,cb_item_content_id,cb_gallery_content_id,ls.*
 						FROM connectby('`".BIT_DB_PREFIX."fisheye_gallery_image_map`', '`gallery_content_id`', '`item_content_id`', ?, 0, '/') AS t(`cb_gallery_content_id` int,`cb_item_content_id` int, `level` int, `branch` text)
 							LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security_map` cgm ON (`cb_gallery_content_id`=cgm.`content_id`)
-							LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` ts ON (ts.`security_id`=cgm.`security_id`)
+							LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` ls ON (ls.`security_id`=cgm.`security_id`)
 						ORDER BY branch
 						";
 		$gBitDb->setFatalActive( FALSE );
