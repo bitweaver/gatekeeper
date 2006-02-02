@@ -46,7 +46,7 @@ $gBitInstaller->registerSchemaIndexes( GATEKEEPER_PKG_NAME, $indices );
 
 // ### Sequences
 $sequences = array (
-	'tiki_security_id_seq' => array( 'start' => 1 ) 
+	'gatekeeper_security_id_seq' => array( 'start' => 1 ) 
 );
 $gBitInstaller->registerSchemaSequences( GATEKEEPER_PKG_NAME, $sequences );
 
