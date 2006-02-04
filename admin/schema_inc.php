@@ -10,13 +10,13 @@ $tables = array(
 	is_hidden C(1),
 	access_question C(250),
 	access_answer C(128)
-	CONSTRAINTS	', CONSTRAINT `gatekeeper_access_user_ref` FOREIGN KEY (`user_id`) REFERENCES `".BIT_DB_PREFIX."users_users` (`user_id`)'
+	CONSTRAINT	', CONSTRAINT `gatekeeper_access_user_ref` FOREIGN KEY (`user_id`) REFERENCES `".BIT_DB_PREFIX."users_users` (`user_id`)'
 ",
 
 'gatekeeper_security_map' => "
 	security_id I4 PRIMARY,
 	content_id I4 PRIMARY
-	CONSTRAINTS	', CONSTRAINT `gatekeeper_consec_sec_ref` FOREIGN KEY (`security_id`) REFERENCES `".BIT_DB_PREFIX."gatekeeper_security` (`security_id`)
+	CONSTRAINT	', CONSTRAINT `gatekeeper_consec_sec_ref` FOREIGN KEY (`security_id`) REFERENCES `".BIT_DB_PREFIX."gatekeeper_security` (`security_id`)
 				 , CONSTRAINT `gatekeeper_access_user_ref` FOREIGN KEY (`content_id`) REFERENCES `".BIT_DB_PREFIX."liberty_content` (`content_id`)'
 ",
 
