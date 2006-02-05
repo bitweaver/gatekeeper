@@ -31,8 +31,6 @@ foreach( array_keys( $tables ) AS $tableName ) {
 $gBitInstaller->registerPackageInfo( GATEKEEPER_PKG_NAME, array(
 	'description' => "Gatekeeper system allows the creation of protected content. This content can then only be accessed by using a specified url, password or only the creator.",
 	'license' => '<a href="http://www.gnu.org/licenses/licenses.html#LGPL">LGPL</a>',
-	'version' => '0.1',
-	'state' => 'beta',
 	'dependencies' => 'liberty',
 ) );
 
