@@ -17,7 +17,7 @@ $tables = array(
 	security_id I4 PRIMARY,
 	content_id I4 PRIMARY
 	CONSTRAINT	', CONSTRAINT `gatekeeper_consec_sec_ref` FOREIGN KEY (`security_id`) REFERENCES `".BIT_DB_PREFIX."gatekeeper_security` (`security_id`)
-				 , CONSTRAINT `gatekeeper_access_user_ref` FOREIGN KEY (`content_id`) REFERENCES `".BIT_DB_PREFIX."liberty_content` (`content_id`)'
+				 , CONSTRAINT `gatekeeper_access_content_ref` FOREIGN KEY (`content_id`) REFERENCES `".BIT_DB_PREFIX."liberty_content` (`content_id`)'
 ",
 
 );
