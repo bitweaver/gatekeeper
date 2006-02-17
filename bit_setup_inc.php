@@ -1,6 +1,12 @@
 <?php
 global $gBitSystem, $gBitSmarty;
-$gBitSystem->registerPackage( 'gatekeeper', dirname( __FILE__).'/', TRUE, LIBERTY_SERVICE_ACCESS_CONTROL );
+
+$registerHash = array(
+	'package_name' => 'gatekeeper',
+	'package_path' => dirname( __FILE__ ).'/',
+	'service' => LIBERTY_SERVICE_ACCESS_CONTROL
+);
+$gBitSystem->registerPackage( $registerHash );
 
 require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
 
