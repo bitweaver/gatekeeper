@@ -3,7 +3,7 @@
 <script type="text/javascript">//<![CDATA[
 function toggleSecuirtyEdit(form) {
 	ele = $("securityselect");
-	setBlockDisplay( "securityedit", ele.value=="new" );
+	flip( "securityedit", ele.value=="new" );
 }
 //]]></script>
 {/literal}
@@ -36,7 +36,7 @@ function toggleSecuirtyEdit(form) {
 
 {literal}
 <script type="text/javascript">//<![CDATA[
-	toggleBlockDisplay('securityedit');
+	flip('securityedit');
 //]]></script>
 {/literal}
 {/if}
