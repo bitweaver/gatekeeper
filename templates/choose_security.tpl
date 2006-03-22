@@ -1,16 +1,16 @@
+{strip}
 {if $gBitUser->isRegistered()}
 {literal}
-<script type="text/javascript">//<![CDATA[
+<script type="text/javascript">/*<![CDATA[*/
 function toggleSecuirtyEdit(form) {
 	ele = $("securityselect");
 	flip( "securityedit", ele.value=="new" );
 }
-//]]></script>
+/*]]>*/</script>
 {/literal}
 {if !$serviceHash}
 	{assign var=serviceHash value=$gContent->mInfo}
 {/if}
-{strip}
 <div class="row">
 	{formlabel label="Security Level"}
 	{forminput}
@@ -32,11 +32,9 @@ function toggleSecuirtyEdit(form) {
 <div id="securityedit">
 	{include file="bitpackage:gatekeeper/edit_security_inc.tpl}
 </div>
-{/strip}
 
-{literal}
-<script type="text/javascript">//<![CDATA[
-	flip('securityedit');
-//]]></script>
-{/literal}
+<script type="text/javascript">
+	hide('securityedit');
+</script>
 {/if}
+{/strip}
