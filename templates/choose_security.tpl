@@ -36,7 +36,7 @@ function toggleSecuirtyEdit(form) {
 
 {literal}
 <script type="text/javascript">//<![CDATA[
-	flip('securityedit');
+	hide('securityedit');
 //]]></script>
 {/literal}
 {/if}
