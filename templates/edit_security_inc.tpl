@@ -1,14 +1,14 @@
 {literal}
 <script type="text/javascript">//<![CDATA[
 function updateControls(form) {
-        bHideControls = true;
-        for ( i = 0; i < form.access_level.length; i++) {
-                if (form.access_level[i].value == "protected" && form.access_level[i].checked == true) {
-                        bHideControls = false;
-                }
-        }
-        form.access_question.disabled = bHideControls;
-        form.access_answer.disabled = bHideControls;
+	bHideControls = true;
+	for ( i = 0; i < form.access_level.length; i++) {
+		if (form.access_level[i].value == "protected" && form.access_level[i].checked == true) {
+			bHideControls = false;
+		}
+	}
+	form.access_question.disabled = bHideControls;
+	form.access_answer.disabled = bHideControls;
 }
 //]]></script>
 {/literal}

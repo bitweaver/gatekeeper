@@ -4,7 +4,12 @@
 <script type="text/javascript">/*<![CDATA[*/
 function toggleSecuirtyEdit(form) {
 	ele = $("securityselect");
-	flip( "securityedit", ele.value=="new" );
+	editEle = $("securityedit");
+	if( ele.value=="new" ) {
+		show( "securityedit" );
+	} else {
+		hide( "securityedit" );
+ 	}
 }
 /*]]>*/</script>
 {/literal}
