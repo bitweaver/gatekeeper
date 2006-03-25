@@ -29,14 +29,14 @@
 		</tr>
 		{foreach key=gatekeeperId item=gatekeeper from=$gatekeeperList}
 			<tr class="{cycle values=odd,even}">
-				<td><a href="{$smarty.server.PHP_SELF}?page=gatekeeper&gatekeeper_id={$gatekeeperId}">{$gatekeeper.title}</a></td>
+				<td><a href="{$smarty.server.PHP_SELF}?page=gatekeeper&gatekeeper_id={$gatekeeperId}">{$gatekeeper.title|escape}</a></td>
 	    		<td align="right">{$gatekeeper.disk_usage/1000000} MB</td>
     			<td align="right">{$gatekeeper.monthly_transfer/1000000} MB</td>
 			</tr>
 		{/foreach}
 	</table>
 {else}
-	{assign var=editLabel value=$gGatekeeper->mInfo.title|default:"New Gatekeeper"}
+	{assign var=editLabel value=$gGatekeeper->mInfo.title|escape|default:"New Gatekeeper"}
 	{form legend="Edit `$editLabel`"}
 		<input type="hidden" name="page" value="{$page}" />
 		<input type="hidden" name="gatekeeper_id" value="{$gGatekeeper->mGatekeeperId}" />
