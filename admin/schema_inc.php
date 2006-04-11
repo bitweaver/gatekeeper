@@ -52,10 +52,10 @@ $gBitInstaller->registerSchemaSequences( GATEKEEPER_PKG_NAME, $sequences );
 
 // ### Default UserPermissions
 $gBitInstaller->registerUserPermissions( GATEKEEPER_PKG_NAME, array(
-	array('bit_p_create_gatekeeper', 'Can create a gatekeeper', 'registered', GATEKEEPER_PKG_NAME),
-	array('bit_p_gatekeeper_edit', 'Can edit any gatekeeper', 'editors', GATEKEEPER_PKG_NAME),
-	array('bit_p_gatekeeper_admin', 'Can admin gatekeeper', 'editors', GATEKEEPER_PKG_NAME),
-	array('bit_p_read_gatekeeper', 'Can read gatekeeper', 'basic', GATEKEEPER_PKG_NAME),
+	array('p_gatekeeper_create', 'Can create a gatekeeper', 'registered', GATEKEEPER_PKG_NAME),
+	array('p_gatekeeper_edit', 'Can edit any gatekeeper', 'editors', GATEKEEPER_PKG_NAME),
+	array('p_gatekeeper_admin', 'Can admin gatekeeper', 'editors', GATEKEEPER_PKG_NAME),
+	array('p_gatekeeper_read', 'Can read gatekeeper', 'basic', GATEKEEPER_PKG_NAME),
 ) );
 
 // ### Default Preferences
