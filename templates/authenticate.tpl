@@ -12,7 +12,7 @@
 	<div class="row">
 		{formlabel label="Answer" for="try-access-answer"}
 		{forminput}
-			<input type="text" name="try_access_answer" id="try-access-answer" value="" maxlength="128" size="50"/>
+			<input type="password" name="try_access_answer" id="try-access-answer" value="" maxlength="128" size="50"/>
 			<input type="submit" name="submit_answer" value="Submit Answer"/>
 		{/forminput}
 	</div>

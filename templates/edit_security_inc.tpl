@@ -50,7 +50,7 @@ function updateControls(form) {
 	{forminput}
 		{formlabel label="Answer" for="access_answer"}
 		{forminput}
-			<input type="text" size="40" maxlength="128" name="access_answer" id="access_answer" value="{$security.access_answer}" /><br/>
+			<input type="password" size="40" maxlength="128" name="access_answer" id="access_answer" value="{$security.access_answer}" /><br/>
 		{/forminput}
 		{formhelp note="Users will be prompted to correctly answer the above question before they can view this `$gContent->mType.content_description`"}
 	{/forminput}
