@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.15 2006/02/08 23:24:27 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.16 2006/05/07 16:04:31 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.15 2006/02/08 23:24:27 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.16 2006/05/07 16:04:31 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.15 $ $Date: 2006/02/08 23:24:27 $ $Author: spiderr $
+ * @version $Revision: 1.16 $ $Date: 2006/05/07 16:04:31 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -48,7 +48,8 @@ class LibertyGatekeeper extends LibertyBase {
 			// if we have an access level, we know we are trying to save/update,
 			// else perhaps we are just assigning security_id to content_id
 			if( empty( $pParamHash['security_description'] ) && ( empty( $pParamHash['security_id'] ) || $pParamHash['security_id'] == 'new' ) ) {
-				$this->mErrors['security'] = tra( "You must enter a security description." );
+				// default name to security access level instead of throwing an error
+				$pParamHash['security_store']['security_description'] = $pParamHash['access_level'];
 			} elseif( !empty( $pParamHash['security_description'] ) ) {
 				// we need to load the existing security_id to verify we user owns the security_id & if anything has changed
 				$pParamHash['security_store']['security_description'] = substr( $pParamHash['security_description'], 0, 160 );

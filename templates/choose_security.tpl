@@ -1,5 +1,5 @@
 {strip}
-{if $gBitUser->isRegistered()}
+{if $gContent && $gContent->isValid() && $gContent->hasEditPermission()}
 {literal}
 <script type="text/javascript">/*<![CDATA[*/
 function toggleSecuirtyEdit(form) {
