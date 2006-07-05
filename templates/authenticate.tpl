@@ -17,5 +17,5 @@
 		{/forminput}
 	</div>
 	{/form}
-</div>
+</div><!-- end .body -->
 {/strip}
