@@ -1,5 +1,5 @@
 <?php
-global $gBitSystem, $gBitSmarty;
+global $gBitSystem, $gBitSmarty, $gLibertySystem;
 
 $registerHash = array(
 	'package_name' => 'gatekeeper',
