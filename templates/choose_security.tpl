@@ -6,9 +6,9 @@ function toggleSecuirtyEdit(form) {
 	ele = $("securityselect");
 	editEle = $("securityedit");
 	if( ele.value=="new" ) {
-		show( "securityedit" );
+		showById( "securityedit" );
 	} else {
-		hide( "securityedit" );
+		hideById( "securityedit" );
  	}
 }
 /*]]>*/</script>
@@ -39,7 +39,7 @@ function toggleSecuirtyEdit(form) {
 </div>
 
 <script type="text/javascript">
-	hide('securityedit');
+	hideById('securityedit');
 </script>
 {/if}
 {/strip}
