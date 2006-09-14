@@ -1,5 +1,4 @@
 {strip}
-{if $gContent && $gContent->isValid() && $gContent->hasEditPermission()}
 {literal}
 <script type="text/javascript">/*<![CDATA[*/
 function toggleSecuirtyEdit(form) {
@@ -41,5 +40,4 @@ function toggleSecuirtyEdit(form) {
 <script type="text/javascript">
 	hideById('securityedit');
 </script>
-{/if}
 {/strip}
