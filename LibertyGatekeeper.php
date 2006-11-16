@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.17 2006/09/08 17:10:54 sylvieg Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.18 2006/11/16 23:15:01 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.17 2006/09/08 17:10:54 sylvieg Exp $
+ * $Id: LibertyGatekeeper.php,v 1.18 2006/11/16 23:15:01 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.17 $ $Date: 2006/09/08 17:10:54 $ $Author: sylvieg $
+ * @version $Revision: 1.18 $ $Date: 2006/11/16 23:15:01 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -102,7 +102,7 @@ class LibertyGatekeeper extends LibertyBase {
 		return( count( $this->mErrors ) == 0 );
 	}
 
-	function getSecurityList( $pUserId=NULL, $pSecurityId=NULL ) {
+	function getSecurityList( $pUserId=NULL, $pSecurityId=NULL, $pSecurityDesc=NULL ) {
 		if( empty( $pUserId ) ) {
 			global $gBitUser;
 			$pUserId = $gBitUser->mUserId;
@@ -112,6 +112,11 @@ class LibertyGatekeeper extends LibertyBase {
 		if( @$this->verifyId( $pSecurityId ) ) {
 			$whereSql = ' AND `security_id`=? ';
 			array_push( $bindVars, $pSecurityId );
+		}
+
+		if( $pSecurityDesc ) {
+			$whereSql .= ' AND `security_description`=? ';
+			array_push( $bindVars, $pSecurityDesc );
 		}
 
 		$query = "SELECT `security_id` AS `hash_id`, `security_id`, `user_id`, `security_description`, `is_private`, `is_hidden`, `access_question`, `access_answer` FROM `".BIT_DB_PREFIX."gatekeeper_security` WHERE `user_id`=? $whereSql";
