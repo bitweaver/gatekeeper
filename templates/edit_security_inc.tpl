@@ -1,4 +1,4 @@
-{if $gContent && $gContent->isValid() && $gContent->hasEditPermission()}
+{if $security || ($gContent && $gContent->isValid() && $gContent->hasEditPermission())}
 {literal}
 <script type="text/javascript">//<![CDATA[
 function updateControls(form) {
