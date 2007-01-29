@@ -5,7 +5,7 @@
 
 	{tr}This {$gContent->getContentDescription()|strtolower} has been password protected by the owner.{/tr}
 
-	{form legend="Authenticate"}
+	{form legend="Authenticate" action=$smarty.server.REQUEST_URI}
 	<input type="hidden" name="content_id" value="{$gContent->mContentId}" />
 
 	<h3>{$gContent->mInfo.access_question}:</h3>
