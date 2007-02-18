@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.4 2005/08/24 20:51:03 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.5 2007/02/18 17:22:31 spiderr Exp $
  * @package gatekeeper
  * @subpackage functions
  * @author spider <spider@steelsun.com>
@@ -18,7 +18,7 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: edit.php,v 1.4 2005/08/24 20:51:03 squareing Exp $
+// $Id: edit.php,v 1.5 2007/02/18 17:22:31 spiderr Exp $
 
 /**
  * required setup
@@ -70,9 +70,9 @@ elseif( !empty( $sec ) ||
 		} elseif( $sec['is_hidden'] == 'y' ) {
 			$sec['selected'] = 'hidden';
 		}
-		$gBitSmarty->assign_by_ref( 'security', $sec );
 	}
 
+	$gBitSmarty->assign_by_ref( 'security', $sec );
 	$gBitSystem->display( 'bitpackage:gatekeeper/edit_security.tpl', 'Edit Security' );
 } else {
 	header( 'Location: '.GATEKEEPER_PKG_URL );
