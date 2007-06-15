@@ -12,6 +12,11 @@ array( 'DATADICT' => array(
 		'tiki_security' => 'gatekeeper_security',
 		'tiki_content_security_map' => 'gatekeeper_security_map',
 	)),
+	array( 'ALTER' => array(
+		'gatekeeper_security' => array(
+			'group_id' => array( '`group_id`', 'I4' ), // , 'NOTNULL' ),
+		),
+	)),
 )),
 		)
 	),

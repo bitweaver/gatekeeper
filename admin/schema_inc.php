@@ -6,6 +6,7 @@ $tables = array(
 	security_id I4 PRIMARY,
 	user_id I4 NOTNULL,
 	security_description C(160) NOTNULL,
+	group_id I4,
 	is_private C(1),
 	is_hidden C(1),
 	access_question C(250),
