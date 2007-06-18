@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.22 2007/06/15 21:37:45 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.23 2007/06/18 14:17:33 squareing Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.22 2007/06/15 21:37:45 squareing Exp $
+ * $Id: LibertyGatekeeper.php,v 1.23 2007/06/18 14:17:33 squareing Exp $
  * @package gatekeeper
  */
 
@@ -28,7 +28,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.22 $ $Date: 2007/06/15 21:37:45 $ $Author: squareing $
+ * @version $Revision: 1.23 $ $Date: 2007/06/18 14:17:33 $ $Author: squareing $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -300,7 +300,7 @@ function gatekeeper_content_list( $pObject, $pParamHash ) {
 */
 	global $gBitSystem, $gGatekeeper, $gBitUser;
 
-	if( is_object( $pObject ) && $pObject->isContentType( FISHEYEIMAGE_CONTENT_TYPE_GUID ) ) {
+	if( is_object( $pObject ) && defined( 'FISHEYEIMAGE_CONTENT_TYPE_GUID' ) && $pObject->isContentType( FISHEYEIMAGE_CONTENT_TYPE_GUID ) ) {
 		if( $gBitSystem->mDb->isAdvancedPostgresEnabled() ) {
 			$ret['where_sql'] = " AND (SELECT gks.`security_id` FROM connectby('fisheye_gallery_image_map', 'gallery_content_id', 'item_content_id', fi.`content_id`, 0, '/')  AS t(`cb_gallery_content_id` int, `cb_item_content_id` int, level int, branch text), `".BIT_DB_PREFIX."gatekeeper_security_map` cgm,  `".BIT_DB_PREFIX."gatekeeper_security` gks
 					  WHERE gks.`security_id`=cgm.`security_id` AND cgm.`content_id`=`cb_gallery_content_id` LIMIT 1) IS NULL";
