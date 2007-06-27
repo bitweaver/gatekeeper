@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.24 2007/06/22 11:13:55 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.25 2007/06/27 16:24:03 threna Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.24 2007/06/22 11:13:55 lsces Exp $
+ * $Id: LibertyGatekeeper.php,v 1.25 2007/06/27 16:24:03 threna Exp $
  * @package gatekeeper
  */
 
@@ -27,7 +27,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.24 $ $Date: 2007/06/22 11:13:55 $ $Author: lsces $
+ * @version $Revision: 1.25 $ $Date: 2007/06/27 16:24:03 $ $Author: threna $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -298,8 +298,8 @@ function gatekeeper_content_list( $pObject, $pParamHash ) {
 //  $this->debug();
 */
 	global $gBitSystem, $gGatekeeper, $gBitUser;
-
-	if( is_object( $pObject ) && defined( 'FISHEYEIMAGE_CONTENT_TYPE_GUID' ) && $pObject->isContentType( FISHEYEIMAGE_CONTENT_TYPE_GUID ) ) {
+	
+	if( is_object( $pObject ) && defined( 'FISHEYEIMAGE_CONTENT_TYPE_GUID' ) && method_exists ($pObject,"isContentType") && $pObject->isContentType( FISHEYEIMAGE_CONTENT_TYPE_GUID ) ) {
 		if( $gBitSystem->mDb->isAdvancedPostgresEnabled() ) {
 			$ret['where_sql'] = " AND (SELECT gks.`security_id` FROM connectby('fisheye_gallery_image_map', 'gallery_content_id', 'item_content_id', fi.`content_id`, 0, '/')  AS t(`cb_gallery_content_id` int, `cb_item_content_id` int, level int, branch text), `".BIT_DB_PREFIX."gatekeeper_security_map` cgm,  `".BIT_DB_PREFIX."gatekeeper_security` gks
 					  WHERE gks.`security_id`=cgm.`security_id` AND cgm.`content_id`=`cb_gallery_content_id` LIMIT 1) IS NULL";
@@ -315,8 +315,8 @@ function gatekeeper_content_list( $pObject, $pParamHash ) {
 		$ret = array(
 			'select_sql' => ' ,gks.`security_id`, gks.`security_description`, gks.`is_private`, gks.`is_hidden`, gks.`access_question`, gks.`access_answer` ',
 			'join_sql' => " LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security_map` cg ON (lc.`content_id`=cg.`content_id`) LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` gks ON (gks.`security_id`=cg.`security_id` )",
-		);
-		if( !is_object( $pObject ) || !$pObject->hasAdminPermission() ) {
+		); 
+		if( !is_object( $pObject ) || !method_exists($pObject,"hasAdminPermission") || !$pObject->hasAdminPermission() ) {
 			$ret['where_sql'] = ' AND (cg.`security_id` IS NULL OR lc.`user_id`=?) ';
 			$ret['bind_vars'][] = $gBitUser->mUserId;
 		}
