@@ -1,3 +1,4 @@
+{if $gContent}
 {strip}
 <div class="body">
 	{formfeedback error=$failedLogin}
@@ -19,3 +20,4 @@
 	{/form}
 </div><!-- end .body -->
 {/strip}
+{/if}
