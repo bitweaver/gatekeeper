@@ -18,6 +18,12 @@ array( 'DATADICT' => array(
 		),
 	)),
 )),
+
+// query: create a gatekeeper_security_id_seq and bring the table up to date with the current max security_id used in the gatekeeper_security table - this basically for mysql
+array( 'PHP' => '
+	$query = $gBitDb->getOne("SELECT MAX(security_id) FROM `'.BIT_DB_PREFIX.'gatekeeper_security`");
+	$tempId = $gBitDb->mDb->GenID("`'.BIT_DB_PREFIX.'gatekeeper_security_id_seq`", $query);
+' ),
 		)
 	),
 );
