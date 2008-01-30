@@ -19,7 +19,7 @@ function updateControls(form) {
 <div class="row">
 	{formlabel label="Security Level Description" for="security-description"}
 	{forminput}
-		<input type="text" name="security_description" id="security-description" value="{$security.security_description}" maxlength="160" size="50"/>
+		<input type="text" name="security_description" id="security-description" value="{$security.security_description|escape}" maxlength="160" size="50"/>
 		{formhelp note="Enter a description for the types of people who will be using this secutiry level such as \"Colleagues\" or \"Family\""}
 	{/forminput}
 </div>
@@ -43,14 +43,14 @@ function updateControls(form) {
 	{forminput}
 		{formlabel label="Question" for="access_question"}
 		{forminput}
-			<input type="text" size="40" maxlength="256" name="access_question" id="access_question" value="{$security.access_question|default:"What is the password to view this `$gContent->mType.content_description`?"}" /><br/>
+			<input type="text" size="40" maxlength="256" name="access_question" id="access_question" value="{$security.access_question|default:"What is the password to view this `$gContent->mType.content_description`?"|escape}" /><br/>
 		{/forminput}
 	{/forminput}
 
 	{forminput}
 		{formlabel label="Answer" for="access_answer"}
 		{forminput}
-			<input type="text" size="40" maxlength="128" name="access_answer" id="access_answer" value="{$security.access_answer}" /><br/>
+			<input type="text" size="40" maxlength="128" name="access_answer" id="access_answer" value="{$security.access_answer|escape}" /><br/>
 		{/forminput}
 		{formhelp note="Users will be prompted to correctly answer the above question before they can view this `$gContent->mType.content_description`"}
 	{/forminput}
