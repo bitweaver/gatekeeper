@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.26 2007/11/05 06:40:38 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.27 2008/06/25 22:21:10 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.26 2007/11/05 06:40:38 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.27 2008/06/25 22:21:10 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -27,7 +27,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.26 $ $Date: 2007/11/05 06:40:38 $ $Author: spiderr $
+ * @version $Revision: 1.27 $ $Date: 2008/06/25 22:21:10 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -275,7 +275,7 @@ function gatekeeper_authenticate( &$pInfo, $pFatalOnError = TRUE ) {
 			$_SESSION['gatekeeper_security'][$pInfo['security_id']] = md5( $pInfo['access_answer'] );
 		} else {
 			if( $pFatalOnError ) {
-				$gBitSystem->display("bitpackage:gatekeeper/authenticate.tpl", "Password Required" );
+				$gBitSystem->display("bitpackage:gatekeeper/authenticate.tpl", "Password Required" , array( 'display_mode' => 'display' ));
 				die;
 			} else {
 				$ret = '<h2>'.tra( "Password Required" ).'</h2>'.$gBitSmarty->fetch( "bitpackage:gatekeeper/authenticate.tpl" );
