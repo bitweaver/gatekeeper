@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.6 2008/06/25 22:21:10 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.7 2008/09/19 01:34:37 laetzer Exp $
  * @package gatekeeper
  * @subpackage functions
  * @author spider <spider@steelsun.com>
@@ -18,7 +18,7 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: edit.php,v 1.6 2008/06/25 22:21:10 spiderr Exp $
+// $Id: edit.php,v 1.7 2008/09/19 01:34:37 laetzer Exp $
 
 /**
  * required setup
@@ -55,7 +55,11 @@ elseif( !empty( $sec ) ||
 		if( empty( $_REQUEST['confirm'] ) ) {
 			$formHash['deletesecurity'] = $_REQUEST['deletesecurity'];
 			$formHash['security_id'] = $_REQUEST['security_id'];
-			$gBitSystem->confirmDialog( $formHash, array( 'warning' => 'Are you sure you want to delete the security list '.$sec['security_description'].'?' ) );
+			$gBitSystem->confirmDialog( $formHash, 
+				array( 
+					'warning' => tra('Are you sure you want to delete this security list?') . ' ' . $sec['security_description']
+				)
+			);
 		} elseif( $gGatekeeper->expungeSecurity( $sec['security_id'] ) ) {
 			header( 'Location: '.GATEKEEPER_PKG_URL );
 			die;
