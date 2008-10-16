@@ -19,7 +19,7 @@ function toggleSecuirtyEdit(form) {
 	{formlabel label="Security Level"}
 	{forminput}
 		<select name="security_id" id="securityselect" onchange="toggleSecuirtyEdit(this)">
-			<option value="public">{tr}None (publically visible){/tr}</option>
+			<option value="public">{tr}Publically visible{/tr}</option>
 				{foreach from=$securities key=secId item=sec}
 					<option value="{$secId}" {if $secId==$smarty.request.security_id || ($secId==$serviceHash.security_id && !$secId==$smarty.request.security_id) }selected="selected"{/if}>{$sec.security_description}</option>
 				{/foreach}
