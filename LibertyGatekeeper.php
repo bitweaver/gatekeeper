@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.28 2009/01/02 21:25:46 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.29 2009/01/02 21:26:20 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: LibertyGatekeeper.php,v 1.28 2009/01/02 21:25:46 spiderr Exp $
+ * $Id: LibertyGatekeeper.php,v 1.29 2009/01/02 21:26:20 spiderr Exp $
  * @package gatekeeper
  */
 
@@ -27,7 +27,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.28 $ $Date: 2009/01/02 21:25:46 $ $Author: spiderr $
+ * @version $Revision: 1.29 $ $Date: 2009/01/02 21:26:20 $ $Author: spiderr $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -189,8 +189,6 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 						ORDER BY branch
 						";
 		$gBitDb->setFatalActive( FALSE );
-vd( $pHash );
-bt(); die;
 				$tree = $pContent->mDb->getAssoc( $query, array( $pHash['content_id'] ) );
 		$gBitDb->setFatalActive( TRUE );
 				if( $tree ) {
