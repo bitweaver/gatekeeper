@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.7 2008/09/19 01:34:37 laetzer Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.8 2009/01/25 08:09:55 spiderr Exp $
  * @package gatekeeper
  * @subpackage functions
  * @author spider <spider@steelsun.com>
@@ -18,7 +18,7 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: edit.php,v 1.7 2008/09/19 01:34:37 laetzer Exp $
+// $Id: edit.php,v 1.8 2009/01/25 08:09:55 spiderr Exp $
 
 /**
  * required setup
@@ -26,6 +26,7 @@
 require_once( '../bit_setup_inc.php' );
 
 $gBitSystem->verifyPackage( 'gatekeeper' );
+$gBitSystem->verifyPermission( 'p_gatekeeper_create' );
 
 require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
 

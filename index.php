@@ -11,11 +11,12 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: index.php,v 1.3 2008/06/25 22:21:10 spiderr Exp $
+// $Id: index.php,v 1.4 2009/01/25 08:09:55 spiderr Exp $
 
 require_once( '../bit_setup_inc.php' );
 
 $gBitSystem->verifyPackage( 'gatekeeper' );
+$gBitSystem->verifyPermission( 'p_gatekeeper_create' );
 
 require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
 
