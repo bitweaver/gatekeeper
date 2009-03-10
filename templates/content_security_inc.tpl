@@ -1,6 +1,8 @@
+<span class="security">
 {if $contentHash.is_hidden=='y' || $contentHash.is_private=='y' || $contentHash.access_answer}
 	{biticon ipackage="icons" iname="emblem-readonly" iexplain="Security" label=TRUE}
 {/if}
+<span class="securityname">
 {if $contentHash.is_hidden=='y'}
 	{tr}Hidden{/tr}
 {/if}
@@ -10,4 +12,5 @@
 {if $contentHash.access_answer}
 	{tr}Password{/tr}
 {/if}
-
+</span>
+</span>
