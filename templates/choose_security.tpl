@@ -2,8 +2,8 @@
 {literal}
 <script type="text/javascript">/*<![CDATA[*/
 function toggleSecuirtyEdit(form) {
-	ele = $("securityselect");
-	editEle = $("securityedit");
+	ele = document.getElementById("securityselect");
+	editEle = document.getElementById("securityedit");
 	if( ele.value=="new" ) {
 		showById( "securityedit" );
 	} else {
@@ -19,7 +19,7 @@ function toggleSecuirtyEdit(form) {
 	{formlabel label="Security Level"}
 	{forminput}
 		<select name="security_id" id="securityselect" onchange="toggleSecuirtyEdit(this)">
-			<option value="public">{tr}Publically visible{/tr}</option>
+			<option value="public">{tr}Publicly visible{/tr}</option>
 				{foreach from=$securities key=secId item=sec}
 					<option value="{$secId}" {if $secId==$smarty.request.security_id || ($secId==$serviceHash.security_id && !$secId==$smarty.request.security_id) }selected="selected"{/if}>{$sec.security_description}</option>
 				{/foreach}
