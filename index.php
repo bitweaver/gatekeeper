@@ -3,7 +3,7 @@
 // | Copyright (c) 2004, bitweaver.org
 // +----------------------------------------------------------------------+
 // | All Rights Reserved. See copyright.txt for details and a complete list of authors.
-// | Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
+// | Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See http://www.gnu.org/copyleft/lesser.html for details
 // |
 // | For comments, please use phpdocu.sourceforge.net documentation standards!!!
 // | -> see http://phpdocu.sourceforge.net/
@@ -11,7 +11,7 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: index.php,v 1.4 2009/01/25 08:09:55 spiderr Exp $
+// $Id: index.php,v 1.5 2009/10/01 13:45:36 wjames5 Exp $
 
 require_once( '../bit_setup_inc.php' );
 

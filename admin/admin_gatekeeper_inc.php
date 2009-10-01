@@ -1,8 +1,8 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_gatekeeper/admin/admin_gatekeeper_inc.php,v 1.4 2006/03/01 20:16:12 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_gatekeeper/admin/admin_gatekeeper_inc.php,v 1.5 2009/10/01 13:45:36 wjames5 Exp $
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
-// Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
+// Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See http://www.gnu.org/copyleft/lesser.html for details.
 if (isset($_REQUEST["gatekeeperset"]) && isset($_REQUEST["homeSample"])) {
 	$gBitSystem->storeConfig("home_gatekeeper", $_REQUEST["homeSample"], GATEKEEPER_PKG_NAME);
 	$gBitSmarty->assign('home_gatekeeper', $_REQUEST["homeSample"]);

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.8 2009/01/25 08:09:55 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.9 2009/10/01 13:45:35 wjames5 Exp $
  * @package gatekeeper
  * @subpackage functions
  * @author spider <spider@steelsun.com>
@@ -10,7 +10,7 @@
 // | Copyright (c) 2004, bitweaver.org
 // +----------------------------------------------------------------------+
 // | All Rights Reserved. See copyright.txt for details and a complete list of authors.
-// | Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
+// | Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See http://www.gnu.org/copyleft/lesser.html for details
 // |
 // | For comments, please use phpdocu.sourceforge.net documentation standards!!!
 // | -> see http://phpdocu.sourceforge.net/
@@ -18,7 +18,7 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: edit.php,v 1.8 2009/01/25 08:09:55 spiderr Exp $
+// $Id: edit.php,v 1.9 2009/10/01 13:45:35 wjames5 Exp $
 
 /**
  * required setup
