@@ -11,9 +11,9 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: index.php,v 1.6 2009/10/01 14:16:59 wjames5 Exp $
+// $Id: index.php,v 1.7 2010/02/08 21:27:22 wjames5 Exp $
 
-require_once( '../bit_setup_inc.php' );
+require_once( '../kernel/setup_inc.php' );
 
 $gBitSystem->verifyPackage( 'gatekeeper' );
 $gBitSystem->verifyPermission( 'p_gatekeeper_create' );
