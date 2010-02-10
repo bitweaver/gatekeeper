@@ -5,9 +5,9 @@ function toggleSecuirtyEdit(form) {
 	ele = document.getElementById("securityselect");
 	editEle = document.getElementById("securityedit");
 	if( ele.value=="new" ) {
-		showById( "securityedit" );
+		BitBase.showById( "securityedit" );
 	} else {
-		hideById( "securityedit" );
+		BitBase.hideById( "securityedit" );
  	}
 }
 /*]]>*/</script>
@@ -38,6 +38,6 @@ function toggleSecuirtyEdit(form) {
 </div>
 
 <script type="text/javascript">
-	hideById('securityedit');
+	BitBase.hideById('securityedit');
 </script>
 {/strip}
