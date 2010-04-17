@@ -4,7 +4,7 @@
 	{formfeedback error=$failedLogin}
 	<h2>{$gContent->getTitle()}</h2>
 
-	{tr}This {$gContent->getContentDescription()|strtolower} has been password protected by the owner.{/tr}
+	{tr}This {$gContent->getContentTypeName()|strtolower} has been password protected by the owner.{/tr}
 
 	{form action=$smarty.server.REQUEST_URI}
 	<input type="hidden" name="content_id" value="{$gContent->mContentId}" />
