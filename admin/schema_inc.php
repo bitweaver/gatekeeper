@@ -63,4 +63,8 @@ $gBitInstaller->registerPreferences( GATEKEEPER_PKG_NAME, array(
 	array(GATEKEEPER_PKG_NAME, 'gatekeeper_list_title','y'),
 	array(GATEKEEPER_PKG_NAME, 'gatekeeper_list_description','y'),
 ) );
-?>
+
+// Requirements
+$gBitInstaller->registerRequirements( GATEKEEPER_PKG_NAME, array(
+	'liberty' => array( 'min' => '2.1.4' ),
+));
