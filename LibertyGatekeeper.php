@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.31 2009/10/01 14:16:59 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/LibertyGatekeeper.php,v 1.32 2010/04/17 15:36:07 wjames5 Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See below for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See http://www.gnu.org/copyleft/lesser.html for details
  *
- * $Id: LibertyGatekeeper.php,v 1.31 2009/10/01 14:16:59 wjames5 Exp $
+ * $Id: LibertyGatekeeper.php,v 1.32 2010/04/17 15:36:07 wjames5 Exp $
  * @package gatekeeper
  */
 
@@ -27,7 +27,7 @@ require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
  *
  * @author spider <spider@steelsun.com>
  *
- * @version $Revision: 1.31 $ $Date: 2009/10/01 14:16:59 $ $Author: wjames5 $
+ * @version $Revision: 1.32 $ $Date: 2010/04/17 15:36:07 $ $Author: wjames5 $
  */
 class LibertyGatekeeper extends LibertyBase {
     /**
@@ -167,7 +167,7 @@ function gatekeeper_content_display( &$pContent, &$pParamHash ) {
 }
 
 function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
-	global $gBitUser, $gBitSystem;
+	global $gBitUser, $gBitSystem, $gLibertySystem;
 
 	if( !count( $pHash ) ) {
 		$pHash = &$pContent->mInfo;
@@ -213,7 +213,7 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 									// We are on a listing, so we should hide this with an empty error message
 									$errorMessage = '';
 								} else {
-									$errorMessage = tra( 'You cannot view this' ).' '.strtolower( tra( $pHash['content_type']['content_description'] ) );
+									$errorMessage = tra( 'You cannot view this' ).' '.strtolower( $gLibertySystem->getContentTypeName( $pHash['content_type_guid'] ) );
 								}
 							}
 							if( !empty( $node['access_answer'] ) ) {
@@ -237,7 +237,7 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 
 				} elseif( !empty( $gBitDb->mDb->_errorMsg ) ) {
 					if( $gBitUser->isOwner() ) {
-						$gBitSmarty->assign( 'feedback', array( 'warning' => $gBitDb->mDb->_errorMsg.'<br/>'.tra( 'Please check the galleries to which this '.$pHash['content_description'].' belongs' ) ) );
+						$gBitSmarty->assign( 'feedback', array( 'warning' => $gBitDb->mDb->_errorMsg.'<br/>'.tra( 'Please check the galleries to which this '.$gLibertySystem->getContentTypeName( $pHash['content_type_guid'] ).' belongs' ) ) );
 					}
 				}
 			} elseif( !empty( $pHash['security_id'] ) ) {
@@ -246,7 +246,7 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 					$ret = TRUE;
 				}
 				if( $pHash['is_private'] == 'y' ) {
-					$errorMessage = tra( 'You cannot view this' ).' '.strtolower( tra( $pHash['content_type']['content_description'] ) );
+					$errorMessage = tra( 'You cannot view this' ).' '.strtolower( $gLibertySystem->getContentTypeName( $pHash['content_type_guid'] ) );
 					if( empty( $pHash['no_fatal'] ) ) {
 						$gBitSystem->fatalError( tra( $errorMessage ));
 					} else {
