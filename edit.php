@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_gatekeeper/edit.php,v 1.11 2010/02/08 21:27:22 wjames5 Exp $
+ * @version $Header$
  * @package gatekeeper
  * @subpackage functions
  * @author spider <spider@steelsun.com>
@@ -18,7 +18,7 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: edit.php,v 1.11 2010/02/08 21:27:22 wjames5 Exp $
+// $Id$
 
 /**
  * required setup

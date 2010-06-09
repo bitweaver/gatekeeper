@@ -11,7 +11,7 @@
 // | Authors: spider <spider@steelsun.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: index.php,v 1.7 2010/02/08 21:27:22 wjames5 Exp $
+// $Id$
 
 require_once( '../kernel/setup_inc.php' );
 
