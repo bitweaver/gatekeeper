@@ -300,7 +300,7 @@ function gatekeeper_content_list( $pObject, $pParamHash ) {
 */
 	global $gBitSystem, $gGatekeeper, $gBitUser;
 	
-	if( is_object( $pObject ) && defined( 'FISHEYEIMAGE_CONTENT_TYPE_GUID' ) && method_exists ($pObject,"isContentType") && $pObject->isContentType( FISHEYEIMAGE_CONTENT_TYPE_GUID ) ) {
+	if( is_a( $pObject, 'FisheyeBase' ) ) {
 		if( $gBitSystem->mDb->isAdvancedPostgresEnabled() ) {
 			$ret['where_sql'] = " AND (SELECT gks.`security_id` FROM connectby('fisheye_gallery_image_map', 'gallery_content_id', 'item_content_id', fi.`content_id`, 0, '/')  AS t(`cb_gallery_content_id` int, `cb_item_content_id` int, level int, branch text), `".BIT_DB_PREFIX."gatekeeper_security_map` cgm,  `".BIT_DB_PREFIX."gatekeeper_security` gks
 					  WHERE gks.`security_id`=cgm.`security_id` AND cgm.`content_id`=`cb_gallery_content_id` LIMIT 1) IS NULL";
