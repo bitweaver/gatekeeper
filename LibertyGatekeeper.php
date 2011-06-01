@@ -161,6 +161,13 @@ function gatekeeper_content_store( &$pObject, &$pParamHash ) {
 	return( $errors );
 }
 
+function gatekeeper_content_expunge( &$pObject ) {
+	if( $pObject->getField('content_id') ) {
+		// We'll first nuke any security mappings for this content_id
+		$pObject->mDb->query( "DELETE FROM `".BIT_DB_PREFIX."gatekeeper_security_map` WHERE `content_id` = ?", array( $pObject->getField('content_id') ) );
+	}
+}
+
 function gatekeeper_content_display( &$pContent, &$pParamHash ) {
 	global $gBitSystem, $gBitSmarty;
 	$pContent->hasUserPermission( $pParamHash['perm_name'] );

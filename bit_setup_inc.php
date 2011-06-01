@@ -15,6 +15,7 @@ if( $gBitSystem->isPackageActive( 'gatekeeper' ) ) {
 		'content_display_function' => 'gatekeeper_content_display',
 		'content_edit_function' => 'gatekeeper_content_edit',
 		'content_store_function' => 'gatekeeper_content_store',
+		'content_expunge_function' => 'gatekeeper_content_expunge',
 		'content_load_sql_function' => 'gatekeeper_content_load',
 		'content_list_sql_function' => 'gatekeeper_content_list',
 		'content_verify_access' => 'gatekeeper_content_verify_access',
