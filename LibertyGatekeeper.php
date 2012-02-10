@@ -235,8 +235,7 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 
 					if( isset( $errorMessage ) ) {
 						if( empty( $pHash['no_fatal'] ) ) {
-							$gBitSystem->setHttpStatus( 403 );
-							$gBitSystem->fatalError( tra( $errorMessage ));
+							$gBitSystem->fatalError( tra( $errorMessage ), NULL, NULL, HttpStatusCodes::HTTP_FORBIDDEN );
 						} else {
 							$error['access_control'] = $errorMessage;
 						}
