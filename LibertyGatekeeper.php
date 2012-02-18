@@ -182,7 +182,7 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 	$error = NULL;
 	if( !$gBitUser->isRegistered() || ( !empty( $pHash['user_id'] ) && $pHash['user_id'] != $gBitUser->mUserId )) {
 		if( !$gBitUser->isAdmin() ) {
-			if( $pContent->mDb->isAdvancedPostgresEnabled() && !empty( $pHash['content_id'] ) ) {
+			if( $pContent->mDb->isAdvancedPostgresEnabled() && !empty( $pHash['content_id'] ) && $gBitSystem->isPackageActive('fisheye') && is_a( $pContent, 'FisheyeBase' ) ) {
 				global $gBitDb, $gBitSmarty;
 				// This code makes use of the badass /usr/share/pgsql/contrib/tablefunc.sql
 				// contribution that you have to install like: psql foo < /usr/share/pgsql/contrib/tablefunc.sql
