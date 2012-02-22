@@ -180,22 +180,12 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 		$pHash = &$pContent->mInfo;
 	}
 	$error = NULL;
+
+	$userIsPrivate = BitUser::isUserPrivate( $pHash['user_id'] );
+
 	if( !$gBitUser->isRegistered() || ( !empty( $pHash['user_id'] ) && $pHash['user_id'] != $gBitUser->mUserId )) {
 		if( !$gBitUser->isAdmin() ) {
-			if( BitUser::isUserPrivate( $pHash['user_id'] ) ) {
-				if( !empty( $pHash['no_fatal'] ) ) {
-					// We are on a listing, so we should hide this with an empty error message
-					$errorMessage = '';
-				} else {
-					$errorMessage = tra( 'You cannot view this' ).' '.strtolower( $gLibertySystem->getContentTypeName( $pHash['content_type_guid'] ) );
-				}
-
-				if( empty( $pHash['no_fatal'] ) ) {
-					$gBitSystem->fatalError( tra( $errorMessage ), NULL, NULL, HttpStatusCodes::HTTP_FORBIDDEN );
-				} else {
-					$error['access_control'] = $errorMessage;
-				}
-			} elseif( $pContent->mDb->isAdvancedPostgresEnabled() && !empty( $pHash['content_id'] ) && $gBitSystem->isPackageActive('fisheye') && is_a( $pContent, 'FisheyeBase' ) ) {
+			if( $pContent->mDb->isAdvancedPostgresEnabled() && !empty( $pHash['content_id'] ) && $gBitSystem->isPackageActive('fisheye') && is_a( $pContent, 'FisheyeBase' ) ) {
 				global $gBitDb, $gBitSmarty;
 				// This code makes use of the badass /usr/share/pgsql/contrib/tablefunc.sql
 				// contribution that you have to install like: psql foo < /usr/share/pgsql/contrib/tablefunc.sql
@@ -276,6 +266,22 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 					if( !($valError = gatekeeper_authenticate( $pHash, empty( $pHash['no_fatal'] ) ) ) ) {
 						$error['access_control'] = $valError;
 					}
+				}
+			} 
+
+			if( $userIsPrivate && empty( $pHash['security_id'] ) ) {
+				// Final privacy check if there is no security check...
+				if( !empty( $pHash['no_fatal'] ) ) {
+					// We are on a listing, so we should hide this with an empty error message
+					$errorMessage = '';
+				} else {
+					$errorMessage = tra( 'You cannot view this' ).' '.strtolower( $gLibertySystem->getContentTypeName( $pHash['content_type_guid'] ) );
+				}
+
+				if( empty( $pHash['no_fatal'] ) ) {
+					$gBitSystem->fatalError( tra( $errorMessage ), NULL, NULL, HttpStatusCodes::HTTP_FORBIDDEN );
+				} else {
+					$error['access_control'] = $errorMessage;
 				}
 			}
 		}
