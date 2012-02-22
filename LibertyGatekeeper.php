@@ -182,7 +182,7 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 	$error = NULL;
 	if( !$gBitUser->isRegistered() || ( !empty( $pHash['user_id'] ) && $pHash['user_id'] != $gBitUser->mUserId )) {
 		if( !$gBitUser->isAdmin() ) {
-			if( !BitUser::isUserPublic( $pHash['user_id'] ) ) {
+			if( BitUser::isUserPrivate( $pHash['user_id'] ) ) {
 				if( !empty( $pHash['no_fatal'] ) ) {
 					// We are on a listing, so we should hide this with an empty error message
 					$errorMessage = '';
