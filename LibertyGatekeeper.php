@@ -182,7 +182,20 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 	$error = NULL;
 	if( !$gBitUser->isRegistered() || ( !empty( $pHash['user_id'] ) && $pHash['user_id'] != $gBitUser->mUserId )) {
 		if( !$gBitUser->isAdmin() ) {
-			if( $pContent->mDb->isAdvancedPostgresEnabled() && !empty( $pHash['content_id'] ) && $gBitSystem->isPackageActive('fisheye') && is_a( $pContent, 'FisheyeBase' ) ) {
+			if( !BitUser::isUserPublic( $pHash['user_id'] ) ) {
+				if( !empty( $pHash['no_fatal'] ) ) {
+					// We are on a listing, so we should hide this with an empty error message
+					$errorMessage = '';
+				} else {
+					$errorMessage = tra( 'You cannot view this' ).' '.strtolower( $gLibertySystem->getContentTypeName( $pHash['content_type_guid'] ) );
+				}
+
+				if( empty( $pHash['no_fatal'] ) ) {
+					$gBitSystem->fatalError( tra( $errorMessage ), NULL, NULL, HttpStatusCodes::HTTP_FORBIDDEN );
+				} else {
+					$error['access_control'] = $errorMessage;
+				}
+			} elseif( $pContent->mDb->isAdvancedPostgresEnabled() && !empty( $pHash['content_id'] ) && $gBitSystem->isPackageActive('fisheye') && is_a( $pContent, 'FisheyeBase' ) ) {
 				global $gBitDb, $gBitSmarty;
 				// This code makes use of the badass /usr/share/pgsql/contrib/tablefunc.sql
 				// contribution that you have to install like: psql foo < /usr/share/pgsql/contrib/tablefunc.sql
