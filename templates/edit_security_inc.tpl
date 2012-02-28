@@ -1,3 +1,4 @@
+<div id="securitylevels">
 {literal}
 <script type="text/javascript">//<![CDATA[
 function updateControls(form) {
@@ -70,9 +71,4 @@ function updateControls(form) {
 </div>
 {/strip}
 
-{literal}
-<script type="text/javascript">//<![CDATA[
-	// can someone smarter than me can figure out how to get the current form when running inline js ? xoxo spiderr
-	//updateControls(this);
-//]]></script>
-{/literal}
+</div>
