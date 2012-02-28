@@ -181,7 +181,7 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 	}
 	$error = NULL;
 
-	if( !$gBitUser->isRegistered() || ( !empty( $pHash['user_id'] ) && $pHash['user_id'] != $gBitUser->mUserId )) {
+	if( !is_a( $pContent, 'LibertyComment' ) && (!$gBitUser->isRegistered() || (!empty( $pHash['user_id'] ) && $pHash['user_id'] != $gBitUser->mUserId )) ) {
 		if( !$gBitUser->isAdmin() ) {
 			if( $pContent->mDb->isAdvancedPostgresEnabled() && !empty( $pHash['content_id'] ) && $gBitSystem->isPackageActive('fisheye') && is_a( $pContent, 'FisheyeBase' ) ) {
 				global $gBitDb, $gBitSmarty;
@@ -322,27 +322,32 @@ function gatekeeper_content_list( $pObject, $pParamHash ) {
 //  $this->debug();
 */
 	global $gBitSystem, $gGatekeeper, $gBitUser;
-	
-	if( is_a( $pObject, 'FisheyeImage' ) && $pObject->isValid() ) {
-		if( $gBitSystem->mDb->isAdvancedPostgresEnabled() ) {
-			$ret['where_sql'] = " AND (SELECT gks.`security_id` FROM connectby('fisheye_gallery_image_map', 'gallery_content_id', 'item_content_id', fi.`content_id`, 0, '/')  AS t(`cb_gallery_content_id` int, `cb_item_content_id` int, level int, branch text), `".BIT_DB_PREFIX."gatekeeper_security_map` cgm,  `".BIT_DB_PREFIX."gatekeeper_security` gks
-					  WHERE gks.`security_id`=cgm.`security_id` AND cgm.`content_id`=`cb_gallery_content_id` LIMIT 1) IS NULL";
+
+
+	$ret = array();
+
+	if( !is_a( $pObject, 'LibertyComment' ) ) {
+		if( is_a( $pObject, 'FisheyeImage' ) && $pObject->isValid() ) {
+			if( $gBitSystem->mDb->isAdvancedPostgresEnabled() ) {
+				$ret['where_sql'] = " AND (SELECT gks.`security_id` FROM connectby('fisheye_gallery_image_map', 'gallery_content_id', 'item_content_id', fi.`content_id`, 0, '/')  AS t(`cb_gallery_content_id` int, `cb_item_content_id` int, level int, branch text), `".BIT_DB_PREFIX."gatekeeper_security_map` cgm,  `".BIT_DB_PREFIX."gatekeeper_security` gks
+						  WHERE gks.`security_id`=cgm.`security_id` AND cgm.`content_id`=`cb_gallery_content_id` LIMIT 1) IS NULL";
+			} else {
+				$ret = array(
+				'select_sql' => ' ,gks.`security_id`, gks.`security_description`, gks.`is_private`, gks.`is_hidden`, gks.`access_question`, gks.`access_answer` ',
+				'join_sql' => " LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security_map` cg ON (lc.`content_id`=cg.`content_id`) LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` gks ON (gks.`security_id`=cg.`security_id` )  LEFT OUTER JOIN `".BIT_DB_PREFIX."fisheye_gallery_image_map` fgim ON (fgim.`item_content_id`=lc.`content_id`) LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security_map` tcs2 ON (fgim.`gallery_content_id`=tcs2.`content_id`) LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` ts2 ON (ts2.`security_id`=tcs2.`security_id` )",
+				'where_sql' => ' AND (tcs2.`security_id` IS NULL OR lc.`user_id`=?) ',
+				'bind_vars' => array( $gBitUser->mUserId ),
+				);
+			}
 		} else {
 			$ret = array(
-			'select_sql' => ' ,gks.`security_id`, gks.`security_description`, gks.`is_private`, gks.`is_hidden`, gks.`access_question`, gks.`access_answer` ',
-			'join_sql' => " LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security_map` cg ON (lc.`content_id`=cg.`content_id`) LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` gks ON (gks.`security_id`=cg.`security_id` )  LEFT OUTER JOIN `".BIT_DB_PREFIX."fisheye_gallery_image_map` fgim ON (fgim.`item_content_id`=lc.`content_id`) LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security_map` tcs2 ON (fgim.`gallery_content_id`=tcs2.`content_id`) LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` ts2 ON (ts2.`security_id`=tcs2.`security_id` )",
-			'where_sql' => ' AND (tcs2.`security_id` IS NULL OR lc.`user_id`=?) ',
-			'bind_vars' => array( $gBitUser->mUserId ),
-			);
-		}
-	} else {
-		$ret = array(
-			'select_sql' => ' ,gks.`security_id`, gks.`security_description`, gks.`is_private`, gks.`is_hidden`, gks.`access_question`, gks.`access_answer` ',
-			'join_sql' => " LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security_map` cg ON (lc.`content_id`=cg.`content_id`) LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` gks ON (gks.`security_id`=cg.`security_id` )",
-		); 
-		if( !is_object( $pObject ) || !method_exists($pObject,"hasAdminPermission") || !$pObject->hasAdminPermission() ) {
-			$ret['where_sql'] = ' AND (cg.`security_id` IS NULL OR lc.`user_id`=?) ';
-			$ret['bind_vars'][] = $gBitUser->mUserId;
+				'select_sql' => ' ,gks.`security_id`, gks.`security_description`, gks.`is_private`, gks.`is_hidden`, gks.`access_question`, gks.`access_answer` ',
+				'join_sql' => " LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security_map` cg ON (lc.`content_id`=cg.`content_id`) LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` gks ON (gks.`security_id`=cg.`security_id` )",
+			); 
+			if( !is_object( $pObject ) || !method_exists($pObject,"hasAdminPermission") || !$pObject->hasAdminPermission() ) {
+				$ret['where_sql'] = ' AND (cg.`security_id` IS NULL OR lc.`user_id`=?) ';
+				$ret['bind_vars'][] = $gBitUser->mUserId;
+			}
 		}
 	}
 
