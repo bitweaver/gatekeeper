@@ -267,7 +267,7 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 				}
 			} 
 
-			if( !empty( $pHash['user_id'] ) && BitUser::isUserPrivate( $pHash['user_id'] ) && empty( $pHash['security_id'] ) ) {
+			if( !empty( $pHash['user_id'] ) && !$gBitUser->hasPermission( 'p_users_admin' ) && BitUser::isUserPrivate( $pHash['user_id'] ) && empty( $pHash['security_id'] ) ) {
 				// Final privacy check if there is no security check...
 				if( !empty( $pHash['no_fatal'] ) ) {
 					// We are on a listing, so we should hide this with an empty error message
