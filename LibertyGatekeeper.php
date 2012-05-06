@@ -33,9 +33,9 @@ class LibertyGatekeeper extends LibertyBase {
     /**
     * During initialisation, be sure to call our base constructors
 	**/
-	function LibertyGatekeeper( $pContentId=NULL ) {
+	function __construct( $pContentId=NULL ) {
 		$this->mContentId = $pContentId;
-		LibertyBase::LibertyBase();
+		parent::__construct();
 	}
 
 	function isValid() {
