@@ -19,7 +19,7 @@
 		</div>
 	{/form}
 
-	<a href="{$smarty.server.PHP_SELF}?page=gatekeeper&newgatekeeper=1">{tr}Create New Gatekeeper{/tr}</a>
+	<a href="{$smarty.server.SCRIPT_NAME}?page=gatekeeper&newgatekeeper=1">{tr}Create New Gatekeeper{/tr}</a>
 	<table class="data">
 		<caption>{tr}Defined Gatekeepers{/tr}</caption>
 		<tr>
@@ -29,7 +29,7 @@
 		</tr>
 		{foreach key=gatekeeperId item=gatekeeper from=$gatekeeperList}
 			<tr class="{cycle values=odd,even}">
-				<td><a href="{$smarty.server.PHP_SELF}?page=gatekeeper&gatekeeper_id={$gatekeeperId}">{$gatekeeper.title|escape}</a></td>
+				<td><a href="{$smarty.server.SCRIPT_NAME}?page=gatekeeper&gatekeeper_id={$gatekeeperId}">{$gatekeeper.title|escape}</a></td>
 	    		<td align="right">{$gatekeeper.disk_usage/1000000} MB</td>
     			<td align="right">{$gatekeeper.monthly_transfer/1000000} MB</td>
 			</tr>
