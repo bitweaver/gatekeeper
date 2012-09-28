@@ -265,9 +265,9 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 						$error['access_control'] = $valError;
 					}
 				}
-			} 
+			}
 
-			if( !empty( $pHash['user_id'] ) && !$gBitUser->hasPermission( 'p_users_admin' ) && BitUser::isUserPrivate( $pHash['user_id'] ) && empty( $pHash['security_id'] ) ) {
+			if( !empty( $pHash['user_id'] ) && !$gBitUser->hasPermission( 'p_users_admin' ) && $gBitUser->isUserPrivate( $pHash['user_id'] ) && empty( $pHash['security_id'] ) ) {
 				// Final privacy check if there is no security check...
 				if( !empty( $pHash['no_fatal'] ) ) {
 					// We are on a listing, so we should hide this with an empty error message
@@ -343,7 +343,7 @@ function gatekeeper_content_list( $pObject, $pParamHash ) {
 			$ret = array(
 				'select_sql' => ' ,gks.`security_id`, gks.`security_description`, gks.`is_private`, gks.`is_hidden`, gks.`access_question`, gks.`access_answer` ',
 				'join_sql' => " LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security_map` cg ON (lc.`content_id`=cg.`content_id`) LEFT OUTER JOIN `".BIT_DB_PREFIX."gatekeeper_security` gks ON (gks.`security_id`=cg.`security_id` )",
-			); 
+			);
 			if( !is_object( $pObject ) || !method_exists($pObject,"hasAdminPermission") || !$pObject->hasAdminPermission( FALSE ) ) {
 				$ret['where_sql'] = ' AND (cg.`security_id` IS NULL OR lc.`user_id`=?) ';
 				$ret['bind_vars'][] = $gBitUser->mUserId;
