@@ -17,7 +17,7 @@ function updateControls(form) {
 {strip}
 {formfeedback error=$errors.security}
 
-<div class="row">
+<div class="control-group">
 	{formlabel label="Security Level Description" for="security-description"}
 	{forminput}
 		<input type="text" name="security_description" id="security-description" value="{$security.security_description|escape}" maxlength="160" size="50"/>
@@ -35,14 +35,14 @@ function updateControls(form) {
 	{assign var=contentName value="item"}
 {/if}
 
-<div class="row">
+<div class="control-group">
 	{forminput}
 		{html_radios onclick="updateControls(this.form)" values="hidden" output="Hidden" name="access_level" checked=$radioSel}
 		{formhelp note="This `$contentName` is accessible only by typing the exact URL. It will not appear in listings and search"}
 	{/forminput}
 </div>
 
-<div class="row">
+<div class="control-group">
 	{forminput}
 		{html_radios onclick="updateControls(this.form)" values="protected" output="Protected" name="access_level" checked=$radioSel}
 	{/forminput}
@@ -63,7 +63,7 @@ function updateControls(form) {
 	{/forminput}
 </div>
 
-<div class="row">
+<div class="control-group">
 	{forminput}
 		{html_radios onclick="updateControls(this.form)" values="private" output="Private" name="access_level" checked=$radioSel}
 		{formhelp note="This `$contentName` is only visible to you."}

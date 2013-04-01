@@ -10,7 +10,7 @@
 	<input type="hidden" name="content_id" value="{$gContent->mContentId}" />
 
 	<h3>{$gContent->mInfo.access_question}:</h3>
-	<div class="row">
+	<div class="control-group">
 		{formlabel label="Answer" for="try-access-answer"}
 		{forminput}
 			<input type="text" name="try_access_answer" id="try-access-answer" value="" maxlength="128" size="50"/>

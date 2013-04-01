@@ -11,7 +11,7 @@
 
 			{include file="bitpackage:gatekeeper/edit_security_inc.tpl" security=$security}
 
-			<div class="row submit">
+			<div class="control-group submit">
 				<input type="submit" name="cancelsecurity" value="Cancel"/>&nbsp;
 				<input type="submit" name="savesecurity" value="Save Security List"/>
 			</div>
