@@ -3,7 +3,7 @@
 	{form legend="Assign Gatekeeper to Groups"}
 		<input type="hidden" name="page" value="{$page}" />
 
-		{formfeedback error=`$errors.group`}
+		{formfeedback error=$errors.group}
 
 		{foreach item=grp key=groupId from=$systemGroups}
 			<div class="control-group">
@@ -41,7 +41,7 @@
 		<input type="hidden" name="page" value="{$page}" />
 		<input type="hidden" name="gatekeeper_id" value="{$gGatekeeper->mGatekeeperId}" />
 		<div class="control-group">
-			{formfeedback error=`$errors.title`}
+			{formfeedback error=$errors.title}
 			{formlabel label="Gatekeeper Title" for="title"}
 			{forminput}
 				<input size="40" type="text" name="title" id="title" value="{$gGatekeeper->mInfo.title|escape}" />
@@ -49,7 +49,7 @@
 			{/forminput}
 		</div>
 		<div class="control-group">
-			{formfeedback error=`$errors.disk_usage`}
+			{formfeedback error=$errors.disk_usage}
 			{formlabel label="Disk Usage" for="disk_usage"}
 			{forminput}
 				<input size="10" type="text" name="disk_usage" id="disk_usage" value="{$gGatekeeper->mInfo.disk_usage/1000000}" />
@@ -57,7 +57,7 @@
 			{/forminput}
 		</div>
 		<div class="control-group">
-			{formfeedback error=`$errors.monthly_transfer`}
+			{formfeedback error=$errors.monthly_transfer}
 			{formlabel label="Monthly Transfer" for="monthly_transfer"}
 			{forminput}
 				<input size="10" type="text" name="monthly_transfer" id="monthly_transfer" value="{$gGatekeeper->mInfo.monthly_transfer/1000000}" />
