@@ -20,7 +20,7 @@
 	{/form}
 
 	<a href="{$smarty.server.SCRIPT_NAME}?page=gatekeeper&newgatekeeper=1">{tr}Create New Gatekeeper{/tr}</a>
-	<table class="data">
+	<table class="table data">
 		<caption>{tr}Defined Gatekeepers{/tr}</caption>
 		<tr>
 			<th>{tr}Gatekeeper{/tr}</th>

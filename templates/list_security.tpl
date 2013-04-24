@@ -10,7 +10,7 @@
 		<div class="body">
 			{smartlink ititle="Add Security Level" ipackage="gatekeeper" ifile="edit.php" newsecurity=1}
 
-			<table class="data">
+			<table class="table data">
 				<caption>{tr}Security Levels{/tr}</caption>
 				<tr>
 					<th>{tr}Security Level Description{/tr}</th>
