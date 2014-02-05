@@ -236,7 +236,7 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 
 					if( isset( $errorMessage ) ) {
 						if( empty( $pHash['no_fatal'] ) ) {
-							$gBitSystem->fatalError( tra( $errorMessage ), NULL, NULL, HttpStatusCodes::HTTP_FORBIDDEN );
+							$gBitSystem->fatalError( tra( $errorMessage ), NULL, NULL, HttpStatusCodes::HTTP_UNAUTHORIZED );
 						} else {
 							$error['access_control'] = $errorMessage;
 						}
@@ -255,7 +255,7 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 				if( $pHash['is_private'] == 'y' ) {
 					$errorMessage = tra( 'You cannot view this' ).' '.strtolower( $gLibertySystem->getContentTypeName( $pHash['content_type_guid'] ) );
 					if( empty( $pHash['no_fatal'] ) ) {
-						$gBitSystem->fatalError( tra( $errorMessage ), NULL, NULL, HttpStatusCodes::HTTP_FORBIDDEN );
+						$gBitSystem->fatalError( tra( $errorMessage ), NULL, NULL, HttpStatusCodes::HTTP_UNAUTHORIZED );
 					} else {
 						$error['access_control'] = $errorMessage;
 					}
@@ -277,7 +277,7 @@ function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 				}
 
 				if( empty( $pHash['no_fatal'] ) ) {
-					$gBitSystem->fatalError( tra( $errorMessage ), NULL, NULL, HttpStatusCodes::HTTP_FORBIDDEN );
+					$gBitSystem->fatalError( tra( $errorMessage ), NULL, NULL, HttpStatusCodes::HTTP_UNAUTHORIZED );
 				} else {
 					$error['access_control'] = $errorMessage;
 				}
