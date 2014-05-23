@@ -15,7 +15,7 @@
 		{/foreach}
 
 		<div class="control-group submit">
-			<input type="submit" class="btn" name="assigngatekeeper" value="{tr}Assign gatekeeper{/tr}" />
+			<input type="submit" class="btn btn-default" name="assigngatekeeper" value="{tr}Assign gatekeeper{/tr}" />
 		</div>
 	{/form}
 
@@ -66,8 +66,8 @@
 		</div>
 
 		<div class="control-group submit">
-			<input type="submit" class="btn" name="cancel" value="{tr}Cancel{/tr}" />&nbsp;
-			<input type="submit" class="btn" name="savegatekeeper" value="{tr}Save gatekeeper{/tr}" />
+			<input type="submit" class="btn btn-default" name="cancel" value="{tr}Cancel{/tr}" />&nbsp;
+			<input type="submit" class="btn btn-default" name="savegatekeeper" value="{tr}Save gatekeeper{/tr}" />
 		</div>
 	{/form}
 {/if}
