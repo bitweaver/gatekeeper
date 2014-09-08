@@ -11,9 +11,9 @@
 
 			{include file="bitpackage:gatekeeper/edit_security_inc.tpl" security=$security}
 
-			<div class="control-group submit">
-				<input type="submit" class="btn" name="cancelsecurity" value="Cancel"/>&nbsp;
-				<input type="submit" class="btn" name="savesecurity" value="Save Security List"/>
+			<div class="form-group submit">
+				<input type="submit" class="btn btn-default" name="cancelsecurity" value="Cancel"/>&nbsp;
+				<input type="submit" class="btn btn-default" name="savesecurity" value="Save Security List"/>
 			</div>
 		{/form}
 	</div> <!-- end .body -->

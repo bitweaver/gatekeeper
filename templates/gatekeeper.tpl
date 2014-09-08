@@ -8,21 +8,21 @@
 
 			{formfeedback error=$errors.disk_gatekeeper}
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Your disk gatekeeper"}
 				{forminput}
 					{formfeedback note="$gatekeeper MB"}
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Your current usage"}
 				{forminput}
 					{formfeedback note="$usage MB <small style="padding-left:10px;">( `$gatekeeperPercent`% )</small>"}
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				<div style="border:1px solid #ccc;background:#eee;">
 					<div style="width:{$gatekeeperPercent}%;background:#f80;text-align:left;color:#000;line-height:30px;"><small>{$gatekeeperPercent}%</small></div>
 				</div>

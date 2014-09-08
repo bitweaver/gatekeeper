@@ -10,11 +10,11 @@
 	<input type="hidden" name="content_id" value="{$gContent->mContentId}" />
 
 	<h3>{$gContent->mInfo.access_question}:</h3>
-	<div class="control-group">
+	<div class="form-group">
 		{formlabel label="Answer" for="try-access-answer"}
 		{forminput}
 			<input type="text" name="try_access_answer" id="try-access-answer" value="" maxlength="128" size="50"/>
-			<input type="submit" class="btn" name="submit_answer" value="Submit Answer"/>
+			<input type="submit" class="btn btn-default" name="submit_answer" value="Submit Answer"/>
 		{/forminput}
 	</div>
 	{/form}

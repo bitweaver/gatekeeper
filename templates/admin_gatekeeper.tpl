@@ -6,7 +6,7 @@
 		{formfeedback error=$errors.group}
 
 		{foreach item=grp key=groupId from=$systemGroups}
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label=$grp.group_name for=""}
 				{forminput}
 					{$groupGatekeeper.$groupId}
@@ -14,8 +14,8 @@
 			</div>
 		{/foreach}
 
-		<div class="control-group submit">
-			<input type="submit" class="btn" name="assigngatekeeper" value="{tr}Assign gatekeeper{/tr}" />
+		<div class="form-group submit">
+			<input type="submit" class="btn btn-default" name="assigngatekeeper" value="{tr}Assign gatekeeper{/tr}" />
 		</div>
 	{/form}
 
@@ -40,7 +40,7 @@
 	{form legend="Edit `$editLabel`"}
 		<input type="hidden" name="page" value="{$page}" />
 		<input type="hidden" name="gatekeeper_id" value="{$gGatekeeper->mGatekeeperId}" />
-		<div class="control-group">
+		<div class="form-group">
 			{formfeedback error=$errors.title}
 			{formlabel label="Gatekeeper Title" for="title"}
 			{forminput}
@@ -48,7 +48,7 @@
 				{formhelp note="This title is used to identify the gatekeeper limitations when you assign them to users and groups."}
 			{/forminput}
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			{formfeedback error=$errors.disk_usage}
 			{formlabel label="Disk Usage" for="disk_usage"}
 			{forminput}
@@ -56,7 +56,7 @@
 				{formhelp note="Please enter the desired value in MegaBytes."}
 			{/forminput}
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			{formfeedback error=$errors.monthly_transfer}
 			{formlabel label="Monthly Transfer" for="monthly_transfer"}
 			{forminput}
@@ -65,9 +65,9 @@
 			{/forminput}
 		</div>
 
-		<div class="control-group submit">
-			<input type="submit" class="btn" name="cancel" value="{tr}Cancel{/tr}" />&nbsp;
-			<input type="submit" class="btn" name="savegatekeeper" value="{tr}Save gatekeeper{/tr}" />
+		<div class="form-group submit">
+			<input type="submit" class="btn btn-default" name="cancel" value="{tr}Cancel{/tr}" />&nbsp;
+			<input type="submit" class="btn btn-default" name="savegatekeeper" value="{tr}Save gatekeeper{/tr}" />
 		</div>
 	{/form}
 {/if}

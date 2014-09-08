@@ -15,7 +15,7 @@ function toggleSecuirtyEdit(form) {
 {if !$serviceHash}
 	{assign var=serviceHash value=$gContent->mInfo}
 {/if}
-<div class="control-group">
+<div class="form-group">
 	{formlabel label="Security Level"}
 	{forminput}
 		<select name="security_id" id="securityselect" onchange="toggleSecuirtyEdit(this)">
