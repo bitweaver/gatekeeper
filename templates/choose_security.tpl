@@ -25,9 +25,7 @@ function toggleSecuirtyEdit(form) {
 				{/foreach}
 			<option value="new">{tr}Create New Security Level{/tr}...</option>
 		</select>
-		<div class="help-block"><a href="{$smarty.const.USERS_PKG_URL}preferences.php">{tr}Change User Information Access{/tr}</a> {if $securities}{tr}or{/tr} <a href="{$smarty.const.GATEKEEPER_PKG_URL}">Edit Security Levels</a></div>
-		{/if}
-	</div>
+		<div class="help-block"><a href="{$smarty.const.USERS_PKG_URL}preferences.php">{tr}Change User Information Access{/tr}</a> {if $securities}{tr}or{/tr} <a href="{$smarty.const.GATEKEEPER_PKG_URL}">Edit Security Levels</a></div>{/if}
 	{/forminput}
 </div>
 
