@@ -18,18 +18,14 @@ function toggleSecuirtyEdit(form) {
 <div class="form-group">
 	{formlabel label="Security Level"}
 	{forminput}
-		<select name="security_id" id="securityselect" onchange="toggleSecuirtyEdit(this)">
+		<select class="form-control" name="security_id" id="securityselect" onchange="toggleSecuirtyEdit(this)">
 			<option value="public">{tr}Access based on User Information setting{/tr} ({tr}Currently{/tr} {if $gBitUser->isUserPrivate($gContent->getField('user_id'))}{tr}Private{/tr}{else}{tr}Public{/tr}{/if})</option>
 				{foreach from=$securities key=secId item=sec}
 					<option value="{$secId}" {if $secId==$smarty.request.security_id || ($secId==$serviceHash.security_id && !$secId==$smarty.request.security_id) }selected="selected"{/if}>{$sec.security_description}</option>
 				{/foreach}
 			<option value="new">{tr}Create New Security Level{/tr}...</option>
 		</select>
-
-	<div>
-		<a href="{$smarty.const.USERS_PKG_URL}preferences.php">{tr}Change User Information Access{/tr}</a> {if $securities}{tr}or{/tr} <a href="{$smarty.const.GATEKEEPER_PKG_URL}">Edit Security Levels</a>
-		{/if}
-	</div>
+		<div class="help-block"><a href="{$smarty.const.USERS_PKG_URL}preferences.php">{tr}Change User Information Access{/tr}</a> {if $securities}{tr}or{/tr} <a href="{$smarty.const.GATEKEEPER_PKG_URL}">Edit Security Levels</a></div>{/if}
 	{/forminput}
 </div>
 
