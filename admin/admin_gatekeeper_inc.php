@@ -19,7 +19,7 @@ if( !empty( $_REQUEST['savegatekeeper'] ) ) {
 		die;
 	} else {
 		$saveError = TRUE;
-		$gBitSmarty->assign_by_ref( 'gatekeeperErrors', $gGatekeeper->mErrors );
+		$gBitSmarty->assignByRef( 'gatekeeperErrors', $gGatekeeper->mErrors );
 	}
 } elseif( !empty( $_REQUEST['assigngatekeeper'] ) ) {
 	foreach( array_keys( $_REQUEST ) as $key ) {
@@ -32,16 +32,16 @@ if( !empty( $_REQUEST['savegatekeeper'] ) ) {
 }
 // $gGatekeeper->load();
 if( $gGatekeeper->isValid() || isset( $_REQUEST['newgatekeeper'] ) || !empty( $saveError ) ) {
-	$gBitSmarty->assign_by_ref('gGatekeeper', $gGatekeeper);
+	$gBitSmarty->assignByRef('gGatekeeper', $gGatekeeper);
 } else {
 	$gatekeepers = $gGatekeeper->getList();
 	$systemGroups = $gGatekeeper->getGatekeeperGroups();
-	$gBitSmarty->assign_by_ref('systemGroups', $systemGroups );
+	$gBitSmarty->assignByRef('systemGroups', $systemGroups );
 foreach( array_keys( $systemGroups ) as $groupId ) {
 	$groupGatekeeper[$groupId] = $gGatekeeper->getGatekeeperMenu( 'gatekeeper_group_'.$groupId, $systemGroups[$groupId]['gatekeeper_id'] );
 }
-	$gBitSmarty->assign_by_ref('groupGatekeeper', $groupGatekeeper );
-	$gBitSmarty->assign_by_ref('gatekeeperList', $gatekeepers);
+	$gBitSmarty->assignByRef('groupGatekeeper', $groupGatekeeper );
+	$gBitSmarty->assignByRef('gatekeeperList', $gatekeepers);
 }
 
 ?>

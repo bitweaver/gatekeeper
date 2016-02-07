@@ -48,9 +48,9 @@ elseif( !empty( $sec ) ||
 		if( $gGatekeeper->storeSecurity( $_REQUEST ) ) {
 			header( 'Location: '.GATEKEEPER_PKG_URL );
 		} else {
-			$gBitSmarty->assign_by_ref( 'errors', $gGatekeeper->mErrors );
+			$gBitSmarty->assignByRef( 'errors', $gGatekeeper->mErrors );
 			$_REQUEST['selected'] = $_REQUEST['access_level'];
-			$gBitSmarty->assign_by_ref( 'security', $_REQUEST );
+			$gBitSmarty->assignByRef( 'security', $_REQUEST );
 		}
 	} elseif( !empty( $_REQUEST['deletesecurity'] ) ) {
 		if( empty( $_REQUEST['confirm'] ) ) {
@@ -77,7 +77,7 @@ elseif( !empty( $sec ) ||
 		}
 	}
 
-	$gBitSmarty->assign_by_ref( 'security', $sec );
+	$gBitSmarty->assignByRef( 'security', $sec );
 	$gBitSystem->display( 'bitpackage:gatekeeper/edit_security.tpl', 'Edit Security' , array( 'display_mode' => 'edit' ));
 } else {
 	header( 'Location: '.GATEKEEPER_PKG_URL );

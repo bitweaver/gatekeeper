@@ -21,7 +21,7 @@ $gBitSystem->verifyPermission( 'p_gatekeeper_create' );
 require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
 
 $lists = $gGatekeeper->getSecurityList();
-$gBitSmarty->assign_by_ref( 'securities', $lists );
+$gBitSmarty->assignByRef( 'securities', $lists );
 
 $gBitSystem->display( 'bitpackage:gatekeeper/list_security.tpl', 'Security Lists' , array( 'display_mode' => 'display' ));
 
