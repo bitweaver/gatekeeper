@@ -126,7 +126,7 @@ class LibertyGatekeeper extends LibertyBase {
 	function expungeSecurity( $pSecurityId ) {
 		$ret = FALSE;
 		if( @$this->verifyId( $pSecurityId ) ) {
-			$this->mDb->StartTrans();
+			$this->StartTrans();
 
 			$sql = "DELETE FROM `".BIT_DB_PREFIX."gatekeeper_security_map` WHERE security_id=?";
 			$rs = $this->mDb->query( $sql, array( $pSecurityId ) );
@@ -134,7 +134,7 @@ class LibertyGatekeeper extends LibertyBase {
 			$sql = "DELETE FROM `".BIT_DB_PREFIX."gatekeeper_security` WHERE security_id=?";
 			$rs = $this->mDb->query( $sql, array( $pSecurityId ) );
 
-			$this->mDb->CompleteTrans();
+			$this->CompleteTrans();
 			$ret = TRUE;
 		}
 		return $ret;
