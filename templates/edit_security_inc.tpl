@@ -21,7 +21,7 @@ function updateControls(form) {
 	{formlabel label="Security Level Description" for="security-description"}
 	{forminput}
 		<input type="text" name="security_description" id="security-description" value="{$security.security_description|escape}" maxlength="160" size="50"/>
-		{formhelp note="Enter a description for the types of people who will be using this secutiry level such as \"Colleagues\" or \"Family\""}
+		{formhelp note="Enter a description for the types of people who will be using this security level such as \"Colleagues\" or \"Family\""}
 	{/forminput}
 </div>
 
