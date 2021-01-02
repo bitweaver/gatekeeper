@@ -170,13 +170,15 @@ function gatekeeper_content_expunge( &$pObject ) {
 
 function gatekeeper_content_display( &$pContent, &$pParamHash ) {
 	global $gBitSystem, $gBitSmarty;
-	$pContent->hasUserPermission( $pParamHash['perm_name'] );
+	if( !empty( $pParamHash['perm_name'] ) ) {
+		$pContent->hasUserPermission( $pParamHash['perm_name'] );
+	}
 }
 
 function gatekeeper_content_verify_access( &$pContent, &$pHash ) {
 	global $gBitUser, $gBitSystem, $gLibertySystem;
 
-	if( !count( $pHash ) ) {
+	if( empty( $pHash ) ) {
 		$pHash = &$pContent->mInfo;
 	}
 	$error = NULL;
