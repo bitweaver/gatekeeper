@@ -8,7 +8,7 @@ if (isset($_REQUEST["gatekeeperset"]) && isset($_REQUEST["homeSample"])) {
 	$gBitSmarty->assign('home_gatekeeper', $_REQUEST["homeSample"]);
 }
 
-require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
+require_once( GATEKEEPER_PKG_CLASS_PATH.'LibertyGatekeeper.php' );
 
 
 $gGatekeeper = new LibertyGatekeeper( !empty( $_REQUEST['gatekeeper_id'] ) ? $_REQUEST['gatekeeper_id'] : NULL );

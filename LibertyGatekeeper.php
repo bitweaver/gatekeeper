@@ -15,7 +15,7 @@
 /**
  * required setup
  */
-require_once( LIBERTY_PKG_PATH.'LibertyBase.php' );
+require_once( LIBERTY_PKG_CLASS_PATH.'LibertyBase.php' );
 
 /**
  * Gatekeeper class to illustrate best practices when creating a new bitweaver package that

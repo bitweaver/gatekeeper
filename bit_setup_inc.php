@@ -8,7 +8,7 @@ $registerHash = array(
 );
 $gBitSystem->registerPackage( $registerHash );
 
-require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
+require_once( GATEKEEPER_PKG_CLASS_PATH.'LibertyGatekeeper.php' );
 
 if( $gBitSystem->isPackageActive( 'gatekeeper' ) ) {
 	$gLibertySystem->registerService( LIBERTY_SERVICE_ACCESS_CONTROL, GATEKEEPER_PKG_NAME, array(

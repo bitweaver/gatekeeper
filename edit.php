@@ -28,7 +28,7 @@ require_once( '../kernel/setup_inc.php' );
 $gBitSystem->verifyPackage( 'gatekeeper' );
 $gBitSystem->verifyPermission( 'p_gatekeeper_create' );
 
-require_once( GATEKEEPER_PKG_PATH.'LibertyGatekeeper.php' );
+require_once( GATEKEEPER_PKG_CLASS_PATH.'LibertyGatekeeper.php' );
 
 if( !empty( $_REQUEST['security_id']) ) {
 	$secList = $gGatekeeper->getSecurityList( $gBitUser->mUserId, $_REQUEST['security_id'] );
