@@ -3,7 +3,7 @@ global $gBitSystem, $gBitSmarty, $gLibertySystem;
 
 $registerHash = array(
 	'package_name' => 'gatekeeper',
-	'package_path' => dirname( __FILE__ ).'/',
+	'package_path' => dirname( dirname( __FILE__ ) ).'/',
 	'service' => LIBERTY_SERVICE_ACCESS_CONTROL
 );
 $gBitSystem->registerPackage( $registerHash );
