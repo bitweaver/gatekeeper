@@ -28,8 +28,8 @@
 							{/tr}
 						</td>
 						<td class="actionicon">
-							<a title="{tr}Edit{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}">{booticon iname="icon-file"  ipackage="icons"  iexplain="Edit"}</a>
-							<a title="{tr}Delete{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}&deletesecurity=1">{booticon iname="icon-trash" ipackage="icons" iexplain="Delete"}</a>
+							<a title="{tr}Edit{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}">{booticon iname="fa-file" iexplain="Edit"}</a>
+							<a title="{tr}Delete{/tr}" href="{$smarty.const.GATEKEEPER_PKG_URL}edit.php?security_id={$secId}&deletesecurity=1">{booticon iname="fa-trash" iexplain="Delete"}</a>
 						</td>
 					</tr>
 				{/foreach}
