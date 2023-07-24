@@ -360,6 +360,7 @@ function gatekeeper_content_list( $pObject, $pParamHash ) {
 
 function gatekeeper_content_edit( &$pContent ) {
 	global $gGatekeeper, $gBitUser, $gBitSmarty;
+	$userId = BitBase::getParameter( $pContent->mInfo, 'user_id', $gBitUser->mUserId );
 	$gBitSmarty->assign( 'securities', $gGatekeeper->getSecurityList( $gBitUser->mUserId ) );
 }
 
