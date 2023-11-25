@@ -1,6 +1,6 @@
 {strip}
 {literal}
-<script type="text/javascript">/*<![CDATA[*/
+<script>/*<![CDATA[*/
 function toggleSecuirtyEdit(form) {
 	ele = document.getElementById("securityselect");
 	editEle = document.getElementById("securityedit");
@@ -34,7 +34,7 @@ function toggleSecuirtyEdit(form) {
 	{include file="bitpackage:gatekeeper/edit_security_inc.tpl"}
 </div>
 
-<script type="text/javascript">
+<script>
 	BitBase.hideById('securityedit');
 </script>
 {/strip}

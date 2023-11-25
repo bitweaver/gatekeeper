@@ -1,6 +1,6 @@
 <div id="securitylevels">
 {literal}
-<script type="text/javascript">//<![CDATA[
+<script>//<![CDATA[
 function updateControls(form) {
 	bHideControls = true;
 	for ( i = 0; i < form.access_level.length; i++) {
