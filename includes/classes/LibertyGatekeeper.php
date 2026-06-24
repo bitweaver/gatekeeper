@@ -30,6 +30,9 @@ require_once( LIBERTY_PKG_CLASS_PATH.'LibertyBase.php' );
  * @version $Revision$
  */
 class LibertyGatekeeper extends LibertyBase {
+
+	public $mContentId;
+
     /**
     * During initialisation, be sure to call our base constructors
 	**/
@@ -76,7 +79,7 @@ class LibertyGatekeeper extends LibertyBase {
 					WHERE `content_id` = ?";
 			$rs = $this->mDb->query( $sql, array( $pParamHash['content_id'] ) );
 		}
-		if( !empty( $pParamHash['access_level'] ) || ( @$this->verifyId( $pParamHash['security_id'] ) && $pParamHash['security_id'] != 'public') ) {
+		if( !empty( $pParamHash['access_level'] ) || ( $this->verifyId( $pParamHash['security_id'] ?? null ) && ($pParamHash['security_id'] ?? null) != 'public') ) {
 			if( $this->verifySecurity( $pParamHash ) && !empty( $pParamHash['security_store'] ) ) {
 				trim_array( $pParamHash );
 				if( !empty( $pParamHash['security_store'] ) ) {
